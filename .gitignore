@@ -1,0 +1,14 @@
+node_modules
+build
+test
+src/**.js
+.idea/*
+
+.DS_Store
+.history/
+
+coverage
+.nyc_output
+*.log
+
+yarn.lock

@@ -1,0 +1,8 @@
+{
+  "extends": ["tslint:latest", "tslint-config-prettier", "tslint-immutable"],
+  "rules": {
+    "interface-name": [true, "never-prefix"],
+    "no-implicit-dependencies": [true, "dev"],
+    "no-console": [false]
+  }
+}
