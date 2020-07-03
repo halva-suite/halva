@@ -13,12 +13,5 @@ describe('Token runtime', () => {
       expect('token' in this.env.polkadot.query).to.be.true;
     });
   });
-
-  describe('getting balances', () => {
-    it('should return correct balance', async () => {
-      this.env.accounts.map(async (account: any) => {
-        console.log(await this.env.polkadot.query.token.balances(account.address));
-      });
-    });
-  });
+  
 });
