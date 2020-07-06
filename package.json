@@ -55,8 +55,10 @@
     "@polkadot/util": "^2.15.1",
     "@polkadot/util-crypto": "^2.15.1",
     "chai": "^4.2.0",
+    "findit": "^2.0.0",
     "mocha": "^7.2.0",
-    "sha.js": "^2.4.11"
+    "sha.js": "^2.4.11",
+    "yargs": "^15.4.0"
   },
   "devDependencies": {
     "@bitjson/npm-scripts-info": "^1.0.0",

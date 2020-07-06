@@ -1,11 +1,10 @@
 import { expect } from 'chai';
 
-import config from '../../halva';
 import { init } from './../index';
 
 describe('Token runtime', () => {
   before(async () => {
-    this.env = await init(config);
+    this.env = await init('./../index');
   });
 
   describe('polkadot api', () => {
@@ -13,5 +12,5 @@ describe('Token runtime', () => {
       expect('token' in this.env.polkadot.query).to.be.true;
     });
   });
-  
+
 });
