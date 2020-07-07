@@ -1,10 +1,9 @@
 import repl from 'repl';
 
-import config from '../../halva';
 import { init } from './../index';
 
-(async () => {
-  const api = await init(config);
+export const run = (async (path?: string) => {
+  const api = await init(path);
 
   const r = repl.start('> ');
 
@@ -13,4 +12,4 @@ import { init } from './../index';
     enumerable: true,
     value: api
   });
-})()
+});

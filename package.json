@@ -9,11 +9,10 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "console": "node --experimental-repl-await --require ts-node/register ./src/Repl/repl.ts",
+    "console": "node --experimental-repl-await --require ts-node/register ./src/cli.ts console",
     "describe": "npm-scripts-info",
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
@@ -31,6 +30,9 @@
     "reset": "git clean -dfx && git reset --hard && npm i",
     "clean": "trash build test",
     "prepare-release": "run-s reset test cov:check doc:html version doc:publish"
+  },
+  "bin": {
+    "halva-cli": "./build/main/cli.js"
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
@@ -54,9 +56,11 @@
     "@polkadot/keyring": "^2.15.1",
     "@polkadot/util": "^2.15.1",
     "@polkadot/util-crypto": "^2.15.1",
+    "@types/yargs": "^15.0.5",
     "chai": "^4.2.0",
     "mocha": "^7.2.0",
-    "sha.js": "^2.4.11"
+    "sha.js": "^2.4.11",
+    "yargs": "^15.4.0"
   },
   "devDependencies": {
     "@bitjson/npm-scripts-info": "^1.0.0",
