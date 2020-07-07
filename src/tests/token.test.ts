@@ -1,11 +1,9 @@
 import { expect } from 'chai';
-
-import config from '../../halva';
 import { init } from './../index';
 
 describe('Token runtime', () => {
   before(async () => {
-    this.env = await init(config);
+    this.env = await init(null);
   });
 
   describe('polkadot api', () => {
