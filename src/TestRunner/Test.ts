@@ -11,7 +11,7 @@ declare global {
     var halva_accounts: KeyringPair[];
   }
 
-export const Run = async (config: HalvaTestConfig) => {
+export const HalvaRunTests = async (config: HalvaTestConfig) => {
     config.testingFiles = config.testingFiles.map(testFile => {
         return path.resolve(testFile);
       });
@@ -24,8 +24,11 @@ export const Run = async (config: HalvaTestConfig) => {
       });
       SetTestGlobal(accounts, polkadot)
       console.log('Run tests: '+ config.testingFiles);
-      const runner =  mocha.run();
-      runner.run();
+      const runner = mocha.run();
+      Promise.resolve(resolve => {
+        runner.run(fail => {resolve(fail)});
+      })
+      
 };
 
 export const SetTestGlobal = (accounts: KeyringPair[], polkadot: ApiPromise) => {
@@ -50,6 +53,3 @@ export const CreateMocha = (config: HalvaTestConfig): Mocha => {
 
     return mocha;
 }
-
-Run({testingFiles: ['./src/tests/example.test.js'], network: { test: {ws: "ws://127.0.0.1:9944",
-mnemonic: "bottom drive obey lake curtain smoke basket hold race lonely fit walk"}}, bail: false, mocha: {}});
