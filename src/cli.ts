@@ -16,7 +16,7 @@ yargs
   }, (argv: any) => {
     run(argv.path)
   })
-  .command('test', 'run tests', (yargs) => {
+  .command('test --path --configureFile --bail', 'run tests', (yargs) => {
     yargs.positional('path', {
       type: 'string',
       default: null,
