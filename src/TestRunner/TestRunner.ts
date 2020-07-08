@@ -1,9 +1,5 @@
-export class TestRunner{
-    
-
-    public Run() {
-        // TODO Test contract
-    }
-    
+export class TestRunner {
+  public Run() {
+    // TODO Test contract
+  }
 }
-

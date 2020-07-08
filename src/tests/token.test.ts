@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 describe('Token runtime', () => {
-
   describe('polkadot api', () => {
     it('should have a token api', async () => {
       expect('token' in halva_polkadot.query).to.be.true;

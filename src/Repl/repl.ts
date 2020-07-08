@@ -2,7 +2,7 @@ import repl from 'repl';
 
 import { init } from './../index';
 
-export const run = (async (path?: string) => {
+export const run = async (path?: string) => {
   const api = await init(path);
 
   const r = repl.start('> ');
@@ -12,4 +12,4 @@ export const run = (async (path?: string) => {
     enumerable: true,
     value: api
   });
-});
+};
