@@ -28,7 +28,7 @@ yargs
       yargs.positional('path', {
         type: 'string',
         default: null,
-        describe: 'path to test folder(Required)',
+        describe: 'path to test folder(Required)'
       });
       yargs.positional('configureFile', {
         type: 'string',
