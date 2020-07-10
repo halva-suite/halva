@@ -1,79 +1,86 @@
-import { ApiPromise, Keyring, WsProvider } from '@polkadot/api';
-import { Abi } from '@polkadot/api-contract';
+// tslint:disable: no-implicit-dependencies
+// tslint:disable: no-submodule-imports
+import { ApiPromise, WsProvider } from '@polkadot/api';
+import testKeyring from '@polkadot/keyring/testing';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { TypeRegistry } from '@polkadot/types';
-import { stringToU8a } from '@polkadot/util';
-import { existsSync, readFileSync } from 'fs';
-import { generateAccounts } from '../Accounts';
+import { Address, Hash } from '@polkadot/types/interfaces';
+import BN from 'bn.js';
+import { ALICE, CREATION_FEE, GAS_REQUIRED } from './consts';
+import { GetAbiData, GetByteArray, sendAndReturnFinalized } from './utils';
 
 export const UploadContract = async (
   filePath: string,
   polkadot: ApiPromise,
-  accounts: KeyringPair[]
+  account: KeyringPair
 ) => {
-  return polkadot.tx.contracts
-    .putCode(GetByteArray(filePath))
-    .signAndSend(accounts[0]);
-};
+  const tx = polkadot.tx.contracts.putCode(`0x${GetByteArray(filePath)}`);
+  const result: any = await sendAndReturnFinalized(account, tx);
+  const record = result.findRecord('contracts', 'CodeStored');
 
-export const DeployContract = async (
-  polkadot: ApiPromise,
-  accounts: KeyringPair[],
-  codeHash: string,
-  dataHash: Uint8Array
-) => {
-  const transaction = polkadot.tx.contracts
-    .instantiate(500000, 1000000, codeHash, dataHash)
-    .sign(accounts[0]);
-  const txResult = await transaction.send(({ events = [], status }) => {
-    console.log(`Current status is ${status.type}`);
-
-    if (status.isFinalized) {
-      console.log(`Transaction included at blockHash ${status.asFinalized}`);
-
-      // Loop through Vec<EventRecord> to display all events
-      console.log('MAybe address: ' + events[events.length -1].event.data[1]);
-      txResult();
-    }
-  });
-};
-
-export const GetByteArray = (filePath: string) => {
-  if (!existsSync(filePath)) {
-    throw new Error(`File ${filePath} not exist`);
+  if (!record) {
+    console.error('ERROR: No code stored after executing putCode()');
   }
-  const fileData = readFileSync(filePath);
-
-  return new Uint8Array(fileData);
+  // Return code hash.
+  return record.event.data[0];
 };
 
-export const GetAbiData = (path: string) => {
-  const app = JSON.parse(readFileSync(path, 'utf-8'));
-  const abi = getAbiObj(app);
-  return abi.constructors[0](stringToU8a('test'));
+export const instantiate = async (
+  api: ApiPromise,
+  signer: KeyringPair,
+  codeHash: Hash,
+  inputData: any,
+  endowment: BN,
+  gasRequired: number = GAS_REQUIRED
+): Promise<Address> => {
+  const tx = api.tx.contracts.instantiate(
+    endowment,
+    gasRequired,
+    codeHash,
+    inputData
+  );
+  const result: any = await sendAndReturnFinalized(signer, tx);
+  const record = result.findRecord('contracts', 'Instantiated');
+
+  if (!record) {
+    console.error('ERROR: No new instantiated contract');
+  }
+  // Return the Address of  the instantiated contract.
+  return record.event.data[1];
 };
 
-export const getAbiObj = obj => {
-  const registry = new TypeRegistry();
-  const contractAbi = new Abi(registry, obj);
-  return contractAbi;
+export const callContract = async (
+  api: ApiPromise,
+  signer: KeyringPair,
+  contractAddress: Address,
+  inputData: any,
+  gasRequired: number = GAS_REQUIRED,
+  endowment: number = 0
+): Promise<void> => {
+  const tx = api.tx.contracts.call(
+    contractAddress,
+    endowment,
+    gasRequired,
+    inputData
+  );
+
+  await sendAndReturnFinalized(signer, tx);
 };
 
 export const run = async (contract: string, abi: string) => {
   const provider = new WsProvider('ws://127.0.0.1:9944');
   const polkadot = await ApiPromise.create({ provider });
-  let accounts = await generateAccounts(
-    10,
-    'bottom drive obey lake curtain smoke basket hold race lonely fit walk'
+  const keyring = testKeyring({ type: 'sr25519' });
+  const alicePair = keyring.getPair(ALICE);
+  const hash = await UploadContract(contract, polkadot, alicePair);
+  console.log('\x1b[33m%s\x1b[0m', 'Contract hash ' + hash);
+  const address = await instantiate(
+    polkadot,
+    alicePair,
+    hash,
+    GetAbiData(abi),
+    CREATION_FEE
   );
-  const keyring = new Keyring({ type: 'sr25519' });
-  const alice = keyring.addFromUri('//Alice');
-  accounts.push(alice);
-  accounts = accounts.reverse();
-  const hash = await UploadContract(contract, polkadot, accounts);
-  console.log('Contract hash ' + hash);
-  await DeployContract(polkadot, accounts, hash.toString(), GetAbiData(abi));
-
+  console.log('\x1b[33m%s\x1b[0m', `Contract address: ${address}`);
 };
 
 run(
