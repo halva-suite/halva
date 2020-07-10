@@ -66,7 +66,12 @@ export const callContract = async (
   await sendAndReturnFinalized(signer, tx);
 };
 
-export const run = async (contract: string, abi: string) => {
+export const run = async (
+  contract: string,
+  abi: string,
+  constructorIndex: number,
+  args: any
+) => {
   const provider = new WsProvider('ws://127.0.0.1:9944');
   const polkadot = await ApiPromise.create({ provider });
   const keyring = testKeyring({ type: 'sr25519' });
@@ -77,7 +82,7 @@ export const run = async (contract: string, abi: string) => {
     polkadot,
     alicePair,
     hash,
-    GetAbiData(abi),
+    GetAbiData(abi, constructorIndex, args),
     CREATION_FEE
   );
   console.log('\x1b[33m%s\x1b[0m', `Contract address: ${address}`);
@@ -85,5 +90,7 @@ export const run = async (contract: string, abi: string) => {
 
 run(
   '/home/staler/ink/examples/erc20/target/erc20.wasm',
-  '/home/staler/ink/examples/erc20/target/metadata.json'
+  '/home/staler/ink/examples/erc20/target/metadata.json',
+  0,
+  0
 );

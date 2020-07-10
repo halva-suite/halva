@@ -37,10 +37,14 @@ export async function sendAndReturnFinalized(signer: KeyringPair, tx: any) {
   });
 }
 
-export const GetAbiData = (path: string) => {
+export const GetAbiData = (
+  path: string,
+  constructorIndex: number,
+  arg: any
+) => {
   const metadata = require(path);
   const selector = getAbiObj(metadata);
-  const data = selector.constructors[0](0);
+  const data = selector.constructors[constructorIndex](arg);
   return data;
 };
 
