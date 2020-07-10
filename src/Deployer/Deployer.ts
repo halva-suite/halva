@@ -77,7 +77,7 @@ export const run = async (
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
   const hash = await UploadContract(contract, polkadot, alicePair);
-  console.log('\x1b[33m%s\x1b[0m', 'Contract hash ' + hash);
+  console.log('\x1b[33m%s\x1b[0m', 'WASM code hash ' + hash);
   const address = await instantiate(
     polkadot,
     alicePair,
