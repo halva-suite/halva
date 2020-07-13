@@ -3,7 +3,7 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import testKeyring from '@polkadot/keyring/testing';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { Address, Hash } from '@polkadot/types/interfaces';
+import { Address } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import { ALICE, CREATION_FEE, GAS_REQUIRED } from './consts';
 import { GetAbiData, GetByteArray, sendAndReturnFinalized } from './utils';
@@ -14,11 +14,13 @@ export const UploadContract = async (
   account: KeyringPair
 ) => {
   const tx = polkadot.tx.contracts.putCode(`0x${GetByteArray(filePath)}`);
-  const result: any = await sendAndReturnFinalized(account, tx);
+  const result = await sendAndReturnFinalized(account, tx);
   const record = result.findRecord('contracts', 'CodeStored');
 
   if (!record) {
-    console.error('ERROR: No code stored after executing putCode()');
+    console.error('\x1b[31m%s\x1b[0m', 'ERROR: No code stored after executing putCode()');
+    console.warn('\x1b[31m%s\x1b[0m', 'Check block for more info: \n Block hash: ' + result.status.asFinalized);
+    process.exit(126);
   }
   // Return code hash.
   return record.event.data[0];
@@ -27,7 +29,7 @@ export const UploadContract = async (
 export const instantiate = async (
   api: ApiPromise,
   signer: KeyringPair,
-  codeHash: Hash,
+  codeHash: string,
   inputData: any,
   endowment: BN,
   gasRequired: number = GAS_REQUIRED
@@ -42,7 +44,9 @@ export const instantiate = async (
   const record = result.findRecord('contracts', 'Instantiated');
 
   if (!record) {
-    console.error('ERROR: No new instantiated contract');
+    console.error('\x1b[31m%s\x1b[0m', 'ERROR: No new instantiated contract');
+    console.warn('\x1b[31m%s\x1b[0m', 'Check block for more info: \n Block hash: ' + result.status.asFinalized);
+    process.exit(126);
   }
   // Return the Address of  the instantiated contract.
   return record.event.data[1];
@@ -81,7 +85,7 @@ export const run = async (
   const address = await instantiate(
     polkadot,
     alicePair,
-    hash,
+    hash.toString(),
     GetAbiData(abi, constructorIndex, args),
     CREATION_FEE
   );
