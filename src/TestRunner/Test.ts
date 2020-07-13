@@ -1,13 +1,14 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
 import Mocha from 'mocha';
+import {expect} from 'chai';
 import path from 'path';
 import { generateAccounts } from '../Accounts';
 import { HalvaTestConfig } from './Config/HalvaTestConfig';
 // tslint:disable: variable-name
 declare global {
   var halva_polkadot: ApiPromise;
-
+  var expect;
   var halva_accounts: KeyringPair[];
 }
 
@@ -37,6 +38,7 @@ export const SetTestGlobal = (
   polkadot: ApiPromise
 ) => {
   globalThis.halva_accounts = accounts;
+  globalThis.expect = expect;
   globalThis.halva_polkadot = polkadot;
 };
 
