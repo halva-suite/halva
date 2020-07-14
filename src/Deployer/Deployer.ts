@@ -7,6 +7,8 @@ import { Address } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
 import { ALICE, CREATION_FEE, GAS_REQUIRED } from './consts';
 import { GetAbiData, GetByteArray, sendAndReturnFinalized } from './utils';
+import { HalvaTestConfig } from '../TestRunner';
+import { getConfigureModule } from '../Configure';
 
 export const UploadContract = async (
   filePath: string,
@@ -70,13 +72,14 @@ export const callContract = async (
   await sendAndReturnFinalized(signer, tx);
 };
 
-export const run = async (
+export const deployContract = async (
   contract: string,
   abi: string,
   constructorIndex: number,
-  args: any
+  args: any,
+  config: HalvaTestConfig
 ) => {
-  const provider = new WsProvider('ws://127.0.0.1:9944');
+  const provider = new WsProvider(config.network.test.ws);
   const polkadot = await ApiPromise.create({ provider });
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
@@ -92,9 +95,10 @@ export const run = async (
   console.log('\x1b[33m%s\x1b[0m', `Contract address: ${address}`);
 };
 
-run(
+deployContract(
   '/home/staler/ink/examples/erc20/target/erc20.wasm',
   '/home/staler/ink/examples/erc20/target/metadata.json',
   0,
-  0
+  0,
+  new HalvaTestConfig(null, null, null)
 );
