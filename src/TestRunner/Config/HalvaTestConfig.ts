@@ -1,6 +1,6 @@
 import { readdirSync } from 'fs';
 import { MochaOptions } from 'mocha';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { getConfigureModule } from '../../Configure/FindConfigFile';
 export class HalvaTestConfig {
   public testingFiles: string[];
@@ -22,7 +22,7 @@ export class HalvaTestConfig {
     this.bail = bail;
     this.network = require(network == null
       ? getConfigureModule('halva.js')
-      : network).networks;
+      : resolve(network)).networks;
     this.colors = colors;
   }
 }
