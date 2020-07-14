@@ -5,10 +5,15 @@ import testKeyring from '@polkadot/keyring/testing';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Address } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
-import { ALICE, CREATION_FEE, GAS_REQUIRED } from './consts';
-import { GetAbiData, GetByteArray, sendAndReturnFinalized } from './utils';
 import { HalvaTestConfig } from '../TestRunner';
-import { getConfigureModule } from '../Configure';
+import { ALICE, CREATION_FEE, GAS_REQUIRED } from './consts';
+import { Contract } from './Contract';
+import {
+  GetAbiData,
+  getAbiObj,
+  GetByteArray,
+  sendAndReturnFinalized
+} from './utils';
 
 export const UploadContract = async (
   filePath: string,
@@ -20,8 +25,14 @@ export const UploadContract = async (
   const record = result.findRecord('contracts', 'CodeStored');
 
   if (!record) {
-    console.error('\x1b[31m%s\x1b[0m', 'ERROR: No code stored after executing putCode()');
-    console.warn('\x1b[31m%s\x1b[0m', 'Check block for more info: \n Block hash: ' + result.status.asFinalized);
+    console.error(
+      '\x1b[31m%s\x1b[0m',
+      'ERROR: No code stored after executing putCode()'
+    );
+    console.warn(
+      '\x1b[31m%s\x1b[0m',
+      'Check block for more info: \n Block hash: ' + result.status.asFinalized
+    );
     process.exit(126);
   }
   // Return code hash.
@@ -47,7 +58,10 @@ export const instantiate = async (
 
   if (!record) {
     console.error('\x1b[31m%s\x1b[0m', 'ERROR: No new instantiated contract');
-    console.warn('\x1b[31m%s\x1b[0m', 'Check block for more info: \n Block hash: ' + result.status.asFinalized);
+    console.warn(
+      '\x1b[31m%s\x1b[0m',
+      'Check block for more info: \n Block hash: ' + result.status.asFinalized
+    );
     process.exit(126);
   }
   // Return the Address of  the instantiated contract.
@@ -78,8 +92,8 @@ export const deployContract = async (
   constructorIndex: number,
   args: any,
   config: HalvaTestConfig
-) => {
-  const provider = new WsProvider(config.network.test.ws);
+): Promise<Contract> => {
+  const provider = new WsProvider(config.network.ws);
   const polkadot = await ApiPromise.create({ provider });
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
@@ -93,12 +107,5 @@ export const deployContract = async (
     CREATION_FEE
   );
   console.log('\x1b[33m%s\x1b[0m', `Contract address: ${address}`);
+  return { address, abi: getAbiObj(require(abi)) };
 };
-
-deployContract(
-  '/home/staler/ink/examples/erc20/target/erc20.wasm',
-  '/home/staler/ink/examples/erc20/target/metadata.json',
-  0,
-  0,
-  new HalvaTestConfig(null, null, null)
-);

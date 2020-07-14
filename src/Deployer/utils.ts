@@ -14,7 +14,10 @@ export const GetByteArray = (filePath: string) => {
   return fileData;
 };
 
-export async function sendAndReturnFinalized(signer: KeyringPair, tx: any): Promise<SubmittableResult> {
+export async function sendAndReturnFinalized(
+  signer: KeyringPair,
+  tx: any
+): Promise<SubmittableResult> {
   return new Promise((resolve, reject) => {
     tx.signAndSend(signer, (result: SubmittableResult) => {
       if (result.status.isInBlock) {

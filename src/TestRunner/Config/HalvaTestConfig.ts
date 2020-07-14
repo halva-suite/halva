@@ -8,6 +8,7 @@ export class HalvaTestConfig {
   public bail: boolean;
   public network: any;
   public colors?: boolean;
+  public networkName: string;
   constructor(
     filesPath: string,
     mocha?: MochaOptions,
@@ -16,9 +17,11 @@ export class HalvaTestConfig {
     bail = false,
     colors = false
   ) {
-    this.testingFiles = readdirSync(filesPath).map(file =>
-      join(filesPath, file)
-    );
+    if (this.testingFiles) {
+      this.testingFiles = readdirSync(filesPath).map(file =>
+        join(filesPath, file)
+      );
+    }
     this.mocha = mocha || {};
     this.bail = bail;
     this.network = require(network == null
@@ -27,6 +30,7 @@ export class HalvaTestConfig {
     this.network = this.network.networks[
       networkName == null ? Object.keys(this.network.networks)[0] : networkName
     ];
+    this.networkName = networkName;
     this.colors = colors;
   }
 }
