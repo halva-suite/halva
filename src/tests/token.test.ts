@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 describe('Token runtime', () => {
   describe('polkadot api', () => {
     it('should have a token api', async () => {
@@ -9,7 +7,7 @@ describe('Token runtime', () => {
 
   describe('getting balances', () => {
     it('should return correct balance', async () => {
-      halva_accounts.map(async (account: any) => {
+      halva_accounts.map(async account => {
         console.log(await halva_polkadot.query.token.balances(account.address));
       });
     });
