@@ -5,6 +5,6 @@ module.exports = {
     test: {
       mnemonic,
       ws: "ws://127.0.0.1:9944",
-    }
+    },
   }
 }

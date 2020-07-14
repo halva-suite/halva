@@ -1,7 +1,7 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
+import { expect } from 'chai';
 import Mocha from 'mocha';
-import {expect} from 'chai';
 import path from 'path';
 import { generateAccounts } from '../Accounts';
 import { HalvaTestConfig } from './Config/HalvaTestConfig';
@@ -16,9 +16,9 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
   config.testingFiles = config.testingFiles.map(testFile => {
     return path.resolve(testFile);
   });
-  const provider = new WsProvider(config.network.test.ws);
+  const provider = new WsProvider(config.network.ws);
   const polkadot = await ApiPromise.create({ provider });
-  const accounts = await generateAccounts(10, config.network.test.mnemonic);
+  const accounts = await generateAccounts(10, config.network.mnemonic);
   const mocha = this.CreateMocha(config);
   config.testingFiles.forEach(file => {
     mocha.addFile(file);

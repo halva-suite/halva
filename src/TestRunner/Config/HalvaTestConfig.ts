@@ -6,12 +6,13 @@ export class HalvaTestConfig {
   public testingFiles: string[];
   public mocha: MochaOptions;
   public bail: boolean;
-  public network: { test: { ws: string; mnemonic: string } };
+  public network: any;
   public colors?: boolean;
   constructor(
     filesPath: string,
     mocha?: MochaOptions,
     network?: string,
+    networkName?: string,
     bail = false,
     colors = false
   ) {
@@ -22,7 +23,10 @@ export class HalvaTestConfig {
     this.bail = bail;
     this.network = require(network == null
       ? getConfigureModule('halva.js')
-      : resolve(network)).networks;
+      : resolve(network));
+    this.network = this.network.networks[
+      networkName == null ? Object.keys(this.network.networks)[0] : networkName
+    ];
     this.colors = colors;
   }
 }
