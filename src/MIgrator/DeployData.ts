@@ -7,5 +7,6 @@ export class DeployData {
 // tslint:disable-next-line: max-classes-per-file
 export class HalvaNetwork {
   public networkName: string;
+  public networkAddress: string;
   public contracts: Contract[];
 }

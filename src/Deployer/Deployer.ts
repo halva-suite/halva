@@ -82,7 +82,6 @@ export const callContract = async (
     gasRequired,
     inputData
   );
-
   await sendAndReturnFinalized(signer, tx);
 };
 
@@ -107,5 +106,5 @@ export const deployContract = async (
     CREATION_FEE
   );
   console.log('\x1b[33m%s\x1b[0m', `Contract address: ${address}`);
-  return { address, abi: getAbiObj(require(abi)) };
+  return { address, abi: getAbiObj(require(abi)), path: {contractPath: contract, AbiPath: abi} };
 };

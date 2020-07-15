@@ -3,6 +3,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { expect } from 'chai';
 import Mocha from 'mocha';
 import path from 'path';
+import {eventEmitted, eventNotEmitted} from '../Assert/Asserts';
 import { generateAccounts } from '../Accounts';
 import { HalvaTestConfig } from './Config/HalvaTestConfig';
 // tslint:disable: variable-name
@@ -10,6 +11,8 @@ declare global {
   var halva_polkadot: ApiPromise;
   var expect;
   var halva_accounts: KeyringPair[];
+  var eventNotEmitted;
+  var eventEmitted;
 }
 
 export const HalvaRunTests = async (config: HalvaTestConfig) => {
@@ -39,6 +42,8 @@ export const SetTestGlobal = (
 ) => {
   globalThis.halva_accounts = accounts;
   globalThis.expect = expect;
+  globalThis.eventEmitted = eventEmitted;
+  globalThis.eventNotEmitted = eventNotEmitted;
   globalThis.halva_polkadot = polkadot;
 };
 

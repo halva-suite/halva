@@ -33,6 +33,7 @@ export class Migration {
     } else {
       this.parent.data.networks.push({
         networkName: this.config.networkName,
+        networkAddress: this.config.network.ws as string,
         contracts: [data]
       });
     }
