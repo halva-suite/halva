@@ -1,10 +1,11 @@
 // tslint:disable: no-implicit-dependencies
 // tslint:disable: no-submodule-imports
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, SubmittableResult, WsProvider } from '@polkadot/api';
 import testKeyring from '@polkadot/keyring/testing';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Address } from '@polkadot/types/interfaces';
 import BN from 'bn.js';
+import { readFileSync } from 'fs';
 import { HalvaTestConfig } from '../TestRunner';
 import { ALICE, CREATION_FEE, GAS_REQUIRED } from './consts';
 import { Contract } from './Contract';
@@ -75,14 +76,38 @@ export const callContract = async (
   inputData: any,
   gasRequired: number = GAS_REQUIRED,
   endowment: number = 0
-): Promise<void> => {
+): Promise<SubmittableResult> => {
   const tx = api.tx.contracts.call(
     contractAddress,
     endowment,
     gasRequired,
     inputData
   );
-  await sendAndReturnFinalized(signer, tx);
+  const result = await sendAndReturnFinalized(signer, tx);
+  return result;
+};
+
+export const callContractRPC = async (
+  api: ApiPromise,
+  signer: KeyringPair,
+  contractAddress: Address,
+  inputData: any,
+  gasRequired: number = GAS_REQUIRED,
+  endowment: number = 0
+) => {
+  signer = signer;
+  const rpc = await api.rpc.contracts.call({
+    origin: signer.address,
+    dest: contractAddress,
+    value: endowment,
+    gasLimit: gasRequired,
+    inputData
+  });
+
+  if (rpc.isError) {
+    throw new Error('RPC cal is error');
+  }
+  return rpc.asSuccess;
 };
 
 export const deployContract = async (
@@ -106,5 +131,10 @@ export const deployContract = async (
     CREATION_FEE
   );
   console.log('\x1b[33m%s\x1b[0m', `Contract address: ${address}`);
-  return { address, abi: getAbiObj(require(abi)), path: {contractPath: contract, AbiPath: abi} };
+  return {
+    address,
+    abiJSON: readFileSync(abi, 'utf-8'),
+    abi: getAbiObj(require(abi)),
+    path: { contractPath: contract, AbiPath: abi }
+  };
 };

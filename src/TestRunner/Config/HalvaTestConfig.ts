@@ -9,21 +9,24 @@ export class HalvaTestConfig {
   public network: any;
   public colors?: boolean;
   public networkName: string;
+  public timeout: number;
   constructor(
     filesPath: string,
     mocha?: MochaOptions,
     network?: string,
     networkName?: string,
     bail = false,
+    timeout = 0,
     colors = false
   ) {
-    if (this.testingFiles) {
+    if (filesPath) {
       this.testingFiles = readdirSync(filesPath).map(file =>
         join(filesPath, file)
       );
     }
     this.mocha = mocha || {};
     this.bail = bail;
+    this.timeout = timeout;
     this.network = require(network == null
       ? getConfigureModule('halva.js')
       : resolve(network));

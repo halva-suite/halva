@@ -33,6 +33,13 @@ export class Test implements yargs.CommandModule {
         required: false,
         default: null,
         describe: 'Enable bail'
+      })
+      .option('t', {
+        alias: 'timeout',
+        type: 'number',
+        required: false,
+        default: 0,
+        describe: 'Timeout time for test'
       });
   }
 
@@ -43,7 +50,8 @@ export class Test implements yargs.CommandModule {
         null,
         args.c as string,
         args.n as string,
-        args.b as boolean
+        args.b as boolean,
+        args.t as number
       )
     );
   }

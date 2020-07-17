@@ -16,7 +16,8 @@
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
-    "test": "node --experimental-repl-await --require ts-node/register ./src/cli.ts test ./src/tests/",
+    "test": "node --experimental-repl-await --require ts-node/register ./src/cli.ts test -p ./src/tests/ -n test",
+    "migrate": "node --experimental-repl-await --require ts-node/register ./src/cli.ts migrate -p ./migrations-example/ -n test",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
     "cov:html": "nyc report --reporter=html",
@@ -58,6 +59,7 @@
     "@polkadot/util-crypto": "^2.15.1",
     "@types/yargs": "^15.0.5",
     "chai": "^4.2.0",
+    "class-transformer": "^0.2.3",
     "mocha": "^7.2.0",
     "sha.js": "^2.4.11",
     "yargs": "^15.4.0"

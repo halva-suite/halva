@@ -5,5 +5,6 @@ import { MigrationContract } from '../MIgrator/Migration';
 export class Contract {
   public path: MigrationContract;
   public address: Address;
+  public abiJSON: string;
   public abi: Abi;
 }

@@ -1,15 +1,25 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 import Mocha from 'mocha';
 import path from 'path';
-import {eventEmitted, eventNotEmitted} from '../Assert/Asserts';
 import { generateAccounts } from '../Accounts';
+import { eventEmitted, eventNotEmitted } from '../Assert/Asserts';
+import { artifacts } from '../MIgrator/Artifacts';
 import { HalvaTestConfig } from './Config/HalvaTestConfig';
+import testKeyring from '@polkadot/keyring/testing';
+import { ALICE, CHARLIE, BOB } from '../Deployer/consts';
 // tslint:disable: variable-name
 declare global {
   var halva_polkadot: ApiPromise;
   var expect;
+  var assert;
+  var artifacts: artifacts;
+  var networkName: string;
+  var mochaConfigure: Mocha;
+  var alicePair: KeyringPair;
+  var bobPair: KeyringPair;
+  var charliePair: KeyringPair;
   var halva_accounts: KeyringPair[];
   var eventNotEmitted;
   var eventEmitted;
@@ -22,11 +32,23 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
   const provider = new WsProvider(config.network.ws);
   const polkadot = await ApiPromise.create({ provider });
   const accounts = await generateAccounts(10, config.network.mnemonic);
-  const mocha = this.CreateMocha(config);
+  const mocha = CreateMocha(config);
   config.testingFiles.forEach(file => {
     mocha.addFile(file);
   });
-  SetTestGlobal(accounts, polkadot);
+  const keyring = testKeyring({ type: 'sr25519' });
+  const alicePair = keyring.getPair(ALICE);
+  const charliePair = keyring.getPair(CHARLIE);
+  const bobPair = keyring.getPair(BOB);
+  SetTestGlobal(
+    accounts,
+    polkadot,
+    config,
+    alicePair,
+    bobPair,
+    charliePair,
+    mocha
+  );
   console.log('Run tests: ' + config.testingFiles);
   const runner = mocha.run();
   Promise.resolve(resolve => {
@@ -38,13 +60,25 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
 
 export const SetTestGlobal = (
   accounts: KeyringPair[],
-  polkadot: ApiPromise
+  polkadot: ApiPromise,
+  config: HalvaTestConfig,
+  alicePair: KeyringPair,
+  bobPair: KeyringPair,
+  charliePair: KeyringPair,
+  mochaConfigure: Mocha
 ) => {
   globalThis.halva_accounts = accounts;
   globalThis.expect = expect;
+  globalThis.artifacts = artifacts;
+  globalThis.alicePair = alicePair;
+  globalThis.bobPair = bobPair;
+  globalThis.charliePair = charliePair;
+  globalThis.assert = assert;
   globalThis.eventEmitted = eventEmitted;
   globalThis.eventNotEmitted = eventNotEmitted;
   globalThis.halva_polkadot = polkadot;
+  globalThis.networkName = config.networkName;
+  globalThis.mochaConfigure = mochaConfigure;
 };
 
 export const CreateMocha = (config: HalvaTestConfig): Mocha => {
@@ -60,7 +94,7 @@ export const CreateMocha = (config: HalvaTestConfig): Mocha => {
   if (mochaConfig.useColors == null) {
     mochaConfig.useColors = true;
   }
-
+  mochaConfig.timeout = config.timeout;
   const mocha = new Mocha(mochaConfig);
 
   return mocha;

@@ -4,7 +4,6 @@ import { Contract } from '../Deployer/Contract';
 import { deployContract } from '../Deployer/Deployer';
 import { HalvaTestConfig } from '../TestRunner';
 import { DeployData } from './DeployData';
-
 export class Migration {
   public data: DeployData;
   // Made in order to give each migration a relevant object
@@ -56,7 +55,10 @@ export const RunMigration = async (
     const migration = require(join(resolve(migrationsPath), migrations[i]));
     await migration(deployer);
   }
-  writeFileSync(process.cwd() + '/deployData.json', JSON.stringify(deployer.data));
+  writeFileSync(
+    process.cwd() + '/deployData.json',
+    JSON.stringify(deployer.data)
+  );
 };
 
 export interface MigrationContract {
