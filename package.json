@@ -69,7 +69,7 @@
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "ava": "2.2.0",
-    "codecov": "^3.5.0",
+    "codecov": "^3.7.1",
     "cz-conventional-changelog": "^2.1.0",
     "gh-pages": "^2.0.1",
     "npm-run-all": "^4.1.5",
