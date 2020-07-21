@@ -3,6 +3,8 @@
   "rules": {
     "interface-name": [true, "never-prefix"],
     "no-implicit-dependencies": [true, "dev"],
-    "no-console": [false]
+    "no-console": [false],
+    "object-literal-sort-keys": false,
+    "no-submodule-imports": false
   }
 }
