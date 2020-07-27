@@ -6,9 +6,9 @@ describe('Accounts', () => {
     const addresses = (
       await generateAccounts(
         10,
-        'bottom drive obey lake curtain smoke basket hold race lonely fit walk',
+        'bottom drive obey lake curtain smoke basket hold race lonely fit walk'
       )
-    ).map((a) => a.address);
+    ).map(a => a.address);
 
     expect(addresses).to.deep.equal([
       '5DwKZ3w58GsQ9z3a6Z4kxVkbRbAKwrqCMXVv1B9hj8xrQewQ',
@@ -22,5 +22,5 @@ describe('Accounts', () => {
       '5HRBYsoquQmXFHQ1JzX9qM1vCZ46hXkbLZ3ZCAUvaJjKa991',
       '5FqDomT17FucKQQXpFhJL2Q4JFx6YWmNfM2SDDW4XRsjFhG7'
     ]);
-  })
+  });
 });
