@@ -21,6 +21,7 @@
   "rules": {
     "no-debugger": "off",
     "no-console": 0,
+    "eol-last": ["error", "always"],
     "@typescript-eslint/explicit-module-boundary-types": "off"
-  },
+  }
 }
