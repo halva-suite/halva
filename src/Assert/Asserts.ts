@@ -7,12 +7,23 @@ import {
   sendAndReturnSignFinalized
 } from '../Deployer/utils';
 
-export const eventEmitted = (
-  txResult: SubmittableResult,
+export const eventEmitted = async (
+  asyncFn: any,
   eventName: string,
   section: string,
-  message: string
+  message: string,
+  signer: KeyringPair
 ) => {
+  let txResult: SubmittableResult;
+  if( asyncFn instanceof SubmittableResult) {
+    txResult = asyncFn;
+  }
+  else if (SubmittableExtrinsicOf(asyncFn)) {
+    txResult = await getTxResult(asyncFn, signer);
+  }
+  else {
+    throw new AssertionError('Bad type');
+  }
   const record = txResult.findRecord(section, eventName);
   if (record.event.data[0] == null) {
     const assertionMessage = createAssertionMessage(
@@ -23,14 +34,25 @@ export const eventEmitted = (
   }
 };
 
-export const eventNotEmitted = (
-  txResult: SubmittableResult,
+export const eventNotEmitted = async (
+  asyncFn: any,
   eventName: string,
   section: string,
-  message: string
+  message: string,
+  signer: KeyringPair
 ) => {
+  let txResult: SubmittableResult;
+  if( asyncFn instanceof SubmittableResult) {
+    txResult = asyncFn;
+  }
+  else if (SubmittableExtrinsicOf(asyncFn)) {
+    txResult = await getTxResult(asyncFn, signer);
+  }
+  else {
+    throw new AssertionError('Bad type');
+  }
   const record = txResult.findRecord(section, eventName);
-  if (record.event.data[0] != null) {
+  if (record?.event?.data[0] != null) {
     const assertionMessage = createAssertionMessage(
       message,
       `Failed with the event was emitted although it shouldn't`
@@ -40,12 +62,21 @@ export const eventNotEmitted = (
 };
 
 export const passes = async (
-  asyncFn: SubmittableExtrinsic<ApiTypes>,
+  asyncFn: any,
   message: string,
   signer?: KeyringPair
 ): Promise<void> => {
-  const txResult = await getTxResult(asyncFn, signer);
-  const result = txResult.findRecord('system', ' ExtrinsicFailed');
+  let txResult: SubmittableResult;
+  if( asyncFn instanceof SubmittableResult) {
+    txResult = asyncFn;
+  }
+  else if (SubmittableExtrinsicOf(asyncFn)) {
+    txResult = await getTxResult(asyncFn, signer);
+  }
+  else {
+    throw new AssertionError('Bad type');
+  }
+  const result = txResult.findRecord('system', 'ExtrinsicFailed');
   if (result) {
     const assertionMessage = createAssertionMessage(
       message,
@@ -56,13 +87,22 @@ export const passes = async (
 };
 
 export const fails = async (
-  asyncFn: SubmittableExtrinsic<ApiTypes>,
+  asyncFn: any,
   errorName: string,
   module: string,
   signer: KeyringPair,
   message: string
 ) => {
-  const txResult = await getTxResult(asyncFn, signer);
+  let txResult: SubmittableResult;
+  if( asyncFn instanceof SubmittableResult) {
+    txResult = asyncFn;
+  }
+  else if (SubmittableExtrinsicOf(asyncFn)) {
+    txResult = await getTxResult(asyncFn, signer);
+  }
+  else {
+    throw new AssertionError('Bad type');
+  }
   const err = txResult.findRecord('system', 'ExtrinsicFailed');
   if (!err) {
     const assertionMessage = createAssertionMessage(message, `Did not fail`);
@@ -103,3 +143,7 @@ const createAssertionMessage = (passedMessage, defaultMessage) => {
   }
   return assertionMessage;
 };
+
+const SubmittableExtrinsicOf = (val: any): boolean => {
+  return (val as SubmittableExtrinsic<ApiTypes>).signAndSend != undefined;
+}

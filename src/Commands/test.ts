@@ -34,6 +34,13 @@ export class Test implements yargs.CommandModule {
         default: null,
         describe: 'Enable bail'
       })
+      .option('d', {
+        alias: 'debug',
+        type: 'boolean',
+        required: false,
+        default: true,
+        describe: 'Wite debug info'
+      })
       .option('t', {
         alias: 'timeout',
         type: 'number',

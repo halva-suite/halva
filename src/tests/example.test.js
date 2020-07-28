@@ -1,25 +1,27 @@
-const contract = artifacts.require('erc20');
-describe('ERC20 runtime', () => {
-
+describe('Halva test', () => {
   describe('test global', () => {
     it('Get global var', async () => {
         console.log(halva_accounts[0].address);
     });
   });
+});
 
-  describe('test contract', () => {
-    it('Get contract data', async () => {
-      const res = await contract.total_supply(alicePair);
-      expect(eventEmitted(res.txResult, 'ExtrinsicSuccess', 'system'));
-      expect(res.rpcResult.data.toString()).equal('0xe8030000000000000000000000000000'); // u8a:: 1000
-      });
-    });
+describe('Transfer balance', () => {
+
+  it('Transfer balance to bob(fails)', async () => {
+    const tx = halva_polkadot.tx.balances.transfer(bobPair.address, '100000000000000000000000000000000000000');
+    await fails(tx, 'InsufficientBalance', 'Balances', alicePair);
   });
-
-describe('Transit balance', () => {
-
-  it('Transfer balance to bob', async () => {
-    const res = halva_polkadot.tx.balances.transfer(bobPair.address, '100000000000000000000000000000000000000');
-    await fails(res, 'InsufficientBalance', 'Balances', alicePair);
-  })
-})
+  it('Transfer balance to bob(passes)', async () => {
+    const tx = halva_polkadot.tx.balances.transfer(bobPair.address, '10000000');
+    await passes(tx, 'Send', alicePair);
+  });
+  it('Transfer balance to bob(eventEmitted)', async () => {
+    const tx = halva_polkadot.tx.balances.transfer(bobPair.address, '10000000');
+    await eventEmitted(tx,  'Transfer', 'balances', 'Check event', alicePair);
+  });
+  it('Transfer balance to bob(eventNotEmitted)', async () => {
+    const tx = halva_polkadot.tx.balances.transfer(bobPair.address, '10000000');
+    await eventNotEmitted(tx,  'ExtrinsicFailed', 'system', 'Check bad event', alicePair);
+  });
+});
