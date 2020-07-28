@@ -15,13 +15,11 @@ export const eventEmitted = async (
   signer: KeyringPair
 ) => {
   let txResult: SubmittableResult;
-  if( asyncFn instanceof SubmittableResult) {
+  if (asyncFn instanceof SubmittableResult) {
     txResult = asyncFn;
-  }
-  else if (SubmittableExtrinsicOf(asyncFn)) {
+  } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
-  }
-  else {
+  } else {
     throw new AssertionError('Bad type');
   }
   const record = txResult.findRecord(section, eventName);
@@ -42,13 +40,11 @@ export const eventNotEmitted = async (
   signer: KeyringPair
 ) => {
   let txResult: SubmittableResult;
-  if( asyncFn instanceof SubmittableResult) {
+  if (asyncFn instanceof SubmittableResult) {
     txResult = asyncFn;
-  }
-  else if (SubmittableExtrinsicOf(asyncFn)) {
+  } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
-  }
-  else {
+  } else {
     throw new AssertionError('Bad type');
   }
   const record = txResult.findRecord(section, eventName);
@@ -67,13 +63,11 @@ export const passes = async (
   signer?: KeyringPair
 ): Promise<void> => {
   let txResult: SubmittableResult;
-  if( asyncFn instanceof SubmittableResult) {
+  if (asyncFn instanceof SubmittableResult) {
     txResult = asyncFn;
-  }
-  else if (SubmittableExtrinsicOf(asyncFn)) {
+  } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
-  }
-  else {
+  } else {
     throw new AssertionError('Bad type');
   }
   const result = txResult.findRecord('system', 'ExtrinsicFailed');
@@ -94,13 +88,11 @@ export const fails = async (
   message: string
 ) => {
   let txResult: SubmittableResult;
-  if( asyncFn instanceof SubmittableResult) {
+  if (asyncFn instanceof SubmittableResult) {
     txResult = asyncFn;
-  }
-  else if (SubmittableExtrinsicOf(asyncFn)) {
+  } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
-  }
-  else {
+  } else {
     throw new AssertionError('Bad type');
   }
   const err = txResult.findRecord('system', 'ExtrinsicFailed');
@@ -146,4 +138,4 @@ const createAssertionMessage = (passedMessage, defaultMessage) => {
 
 const SubmittableExtrinsicOf = (val: any): boolean => {
   return (val as SubmittableExtrinsic<ApiTypes>).signAndSend != undefined;
-}
+};

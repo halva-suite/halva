@@ -19,7 +19,7 @@ export class HalvaTestConfig {
     bail = false,
     timeout = 0,
     colors = false,
-    debug = true,
+    debug = true
   ) {
     if (filesPath) {
       this.testingFiles = readdirSync(filesPath).map(file =>
