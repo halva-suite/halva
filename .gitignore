@@ -10,5 +10,6 @@ src/**.js
 coverage
 .nyc_output
 *.log
-
+halva.js
+deployData.json
 yarn.lock
