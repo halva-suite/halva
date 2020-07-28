@@ -2,10 +2,10 @@ import yargs from 'yargs';
 import { HalvaRunTests, HalvaTestConfig } from '../TestRunner';
 
 export class Test implements yargs.CommandModule {
-  command = 'test';
-  describe = 'Run tests';
+  public command = 'test';
+  public describe = 'Run tests';
 
-  builder(args: yargs.Argv) {
+  public builder(args: yargs.Argv) {
     return args
       .option('p', {
         alias: 'path',
@@ -43,7 +43,7 @@ export class Test implements yargs.CommandModule {
       });
   }
 
-  async handler(args: yargs.Arguments) {
+  public async handler(args: yargs.Arguments) {
     HalvaRunTests(
       new HalvaTestConfig(
         args.p as string,
