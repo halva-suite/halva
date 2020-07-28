@@ -1,10 +1,11 @@
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
+import { Metadata } from '@polkadot/types';
 import { expect, assert } from 'chai';
 import Mocha from 'mocha';
 import path from 'path';
 import { generateAccounts } from '../Accounts';
-import { eventEmitted, eventNotEmitted } from '../Assert/Asserts';
+import { eventEmitted, eventNotEmitted, passes, fails } from '../Assert/Asserts';
 import { artifacts } from '../MIgrator/Artifacts';
 import { HalvaTestConfig } from './Config/HalvaTestConfig';
 import testKeyring from '@polkadot/keyring/testing';
@@ -23,6 +24,9 @@ declare global {
   var halva_accounts: KeyringPair[];
   var eventNotEmitted;
   var eventEmitted;
+  var passes;
+  var fails;
+  var chainMetadata: Metadata;
 }
 
 export const HalvaRunTests = async (config: HalvaTestConfig) => {
@@ -39,6 +43,7 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
   const charliePair = keyring.getPair(CHARLIE);
+  const metadata = await polkadot.rpc.state.getMetadata();
   const bobPair = keyring.getPair(BOB);
   SetTestGlobal(
     accounts,
@@ -47,7 +52,8 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
     alicePair,
     bobPair,
     charliePair,
-    mocha
+    mocha,
+    metadata
   );
   console.log('Run tests: ' + config.testingFiles);
   const runner = mocha.run();
@@ -65,7 +71,8 @@ export const SetTestGlobal = (
   alicePair: KeyringPair,
   bobPair: KeyringPair,
   charliePair: KeyringPair,
-  mochaConfigure: Mocha
+  mochaConfigure: Mocha,
+  metadata: Metadata,
 ) => {
   globalThis.halva_accounts = accounts;
   globalThis.expect = expect;
@@ -79,6 +86,9 @@ export const SetTestGlobal = (
   globalThis.halva_polkadot = polkadot;
   globalThis.networkName = config.networkName;
   globalThis.mochaConfigure = mochaConfigure;
+  globalThis.passes = passes;
+  globalThis.chainMetadata = metadata;
+  globalThis.fails = fails;
 };
 
 export const CreateMocha = (config: HalvaTestConfig): Mocha => {

@@ -36,7 +36,6 @@ export class Migration {
         contracts: [data]
       });
     }
-    console.log(this.parent.data);
     return data;
   }
 }

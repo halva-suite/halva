@@ -15,3 +15,11 @@ describe('ERC20 runtime', () => {
       });
     });
   });
+
+describe('Transit balance', () => {
+
+  it('Transfer balance to bob', async () => {
+    const res = halva_polkadot.tx.balances.transfer(bobPair.address, '100000000000000000000000000000000000000');
+    await fails(res, 'InsufficientBalance', 'Balances', alicePair);
+  })
+})
