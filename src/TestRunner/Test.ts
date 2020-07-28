@@ -5,7 +5,12 @@ import { expect, assert } from 'chai';
 import Mocha from 'mocha';
 import path from 'path';
 import { generateAccounts } from '../Accounts';
-import { eventEmitted, eventNotEmitted, passes, fails } from '../Assert/Asserts';
+import {
+  eventEmitted,
+  eventNotEmitted,
+  passes,
+  fails
+} from '../Assert/Asserts';
 import { artifacts } from '../MIgrator/Artifacts';
 import { HalvaTestConfig } from './Config/HalvaTestConfig';
 import testKeyring from '@polkadot/keyring/testing';
@@ -72,7 +77,7 @@ export const SetTestGlobal = (
   bobPair: KeyringPair,
   charliePair: KeyringPair,
   mochaConfigure: Mocha,
-  metadata: Metadata,
+  metadata: Metadata
 ) => {
   globalThis.halva_accounts = accounts;
   globalThis.expect = expect;
