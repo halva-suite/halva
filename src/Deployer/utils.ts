@@ -40,6 +40,31 @@ export async function sendAndReturnFinalized(
   });
 }
 
+export async function sendAndReturnSignFinalized(
+  tx: any
+): Promise<SubmittableResult> {
+  return new Promise((resolve, reject) => {
+    tx.send((result: SubmittableResult) => {
+      if (result.status.isInBlock) {
+        console.log(`Write in block: ${result.status.asInBlock}`);
+        // Return the result of the submittable extrinsic after the transfer is finalized
+      }
+      if (result.status.isFinalized) {
+        console.log(`Finalized in: ${result.status.asFinalized}`);
+        resolve(result as SubmittableResult);
+      }
+      if (
+        result.status.isDropped ||
+        result.status.isInvalid ||
+        result.status.isUsurped
+      ) {
+        reject(result as SubmittableResult);
+        console.error('ERROR: Transaction could not be finalized.');
+      }
+    });
+  });
+}
+
 export const GetAbiData = (
   path: string,
   constructorIndex: number,

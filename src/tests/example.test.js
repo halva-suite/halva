@@ -8,11 +8,10 @@ describe('ERC20 runtime', () => {
   });
 
   describe('test contract', () => {
-    it('Get contract data', async (done) => {
+    it('Get contract data', async () => {
       const res = await contract.total_supply(alicePair);
+      expect(eventEmitted(res.txResult, 'ExtrinsicSuccess', 'system'));
       expect(res.rpcResult.data.toString()).equal('0xe8030000000000000000000000000000'); // u8a:: 1000
-      expect(eventEmitted(res.txResult, 'ExtrinsicSuccess', 'system')).to.be.true;
-      done();
       });
     });
   });
