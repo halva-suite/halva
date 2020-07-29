@@ -93,11 +93,11 @@ describe('Halva test', () => {
 ```
 
 ### Variable list:
-* `halva_accounts` - 10 Key pairs for tests
+* `halva_accounts` - 10 Keyring pairs for tests
 * `halva_polkadot` - ApiPromise object of polkadot
-* `alicePair` - KeyPair object of Alice
-* `bobPair` - KeyPair object of Bob
-* `charliePair` - KeyPair object of Charlie
+* `alicePair` - KeyringPair object of Alice
+* `bobPair` - KeyringPair object of Bob
+* `charliePair` - KeyringPair object of Charlie
 * `networkName` - Current network name
 * `chainMetadata` - Metadata object 
 * `mochaConfigure` - Current Mocha configuration object
