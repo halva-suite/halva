@@ -18,6 +18,8 @@
     <br />
     <a href="https://github.com/halva-suite/halva/issues">Report Bug</a> |
     <a href="https://github.com/halva-suite/halva/issues">Request Feature</a>
+    <br />
+    <p align="center"><b>🔥 ATTENTION 🔥</br> The module has been tested on Substrate <ins>2.0.0-rc4</ins> version, work on other versions is not guaranteed</b></p>
   </p>
 </p>
 

@@ -1,11 +1,11 @@
 {
-  "name": "halva",
-  "version": "0.0.1",
-  "description": "asd",
+  "name": "halva-cli",
+  "version": "1.0.0",
+  "description": "Halva is a toolchain for developing Decentralized Applications based on Substrate. It provides a high-level way to configure a development environment, interact with Substrate through external API and writing your test cases.",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/ByKeks/polkats",
+  "repository": "https://github.com/halva-suite/halva",
   "license": "MIT",
   "keywords": [],
   "scripts": {
