@@ -7,7 +7,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/halva-suite/PoC">
+  <a href="https://github.com/halva-suite/halva">
     <img src="https://avatars2.githubusercontent.com/u/67451441?s=400&u=16f743b727e0d20fb8883c9794a87c9d5732fe67&v=4" alt="Logo" width="100" height="100">
   </a>
 
@@ -102,8 +102,15 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Project Link: [https://github.com/halva-suite/halva](https://github.com/halva-suite/halva)
 
+<a href="http://wintex.pro/" target="_blank">
+  <img src="https://github.com/halva-suite/assets/blob/master/wintex.png?raw=true" width="200" />
+</a>
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[wintex-url]: http://wintex.pro/
+[wintex-logo]: https://github.com/halva-suite/assets/blob/master/wintex.png?raw=true
 [contributors-shield]: https://img.shields.io/github/contributors/halva-suite/halva.svg?style=flat-square
 [contributors-url]: https://github.com/halva-suite/halva/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/halva-suite/halva.svg?style=flat-square
