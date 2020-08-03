@@ -17,6 +17,7 @@
     "fix:tslint": "tslint --fix --project .",
     "test": "node --experimental-repl-await --require ts-node/register ./src/cli.ts test -p ./src/tests/ -n test",
     "migrate": "node --experimental-repl-await --require ts-node/register ./src/cli.ts migrate -p ./migrations-example/ -n test",
+    "create": "node --experimental-repl-await --require ts-node/register ./src/cli.ts create test newTest",
     "console": "node --experimental-repl-await --require ts-node/register ./src/cli.ts console",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
@@ -61,6 +62,7 @@
     "assertion-error": "^1.1.0",
     "chai": "^4.2.0",
     "class-transformer": "^0.2.3",
+    "hygen": "^6.0.4",
     "mocha": "^7.2.0",
     "sha.js": "^2.4.11",
     "yargs": "^15.4.1"
