@@ -16,7 +16,7 @@ export class Console implements yargs.CommandModule {
   }
 
   public async handler(args: yargs.Arguments) {
-    const path = args.p == null ? getConfigureModule('halva.js') : args.p;
+    const path = getConfigureModule(args.p as string);
     run(path as string);
   }
 }

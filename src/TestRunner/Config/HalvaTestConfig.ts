@@ -31,7 +31,7 @@ export class HalvaTestConfig {
     this.debug = debug;
     this.timeout = timeout;
     this.network = require(network == null
-      ? getConfigureModule('halva.js')
+      ? getConfigureModule(null)
       : resolve(network));
     this.network = this.network.networks[
       networkName == null ? Object.keys(this.network.networks)[0] : networkName
