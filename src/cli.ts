@@ -2,6 +2,7 @@
 import yargs from 'yargs';
 import { Console } from './Commands/console';
 import { Migrate } from './Commands/migrate';
+import { Networks } from './Commands/networks';
 import { Test } from './Commands/test';
 import { CreateArtifact } from './CreateArtifact/CreateArtifact';
 
@@ -11,17 +12,28 @@ yargs
   .command(new Test())
   .command(new Console())
   .command(new Migrate())
-  .command('create <artifact_type> <ArtifactName>', 'Create artifact', (yargs) => {
-    yargs
-      .positional('artifact_type', {
-        describe: 'Artifact type',
-        default: 'test'
-      })
-      .positional('ArtifactName', {
-        describe: 'Artifact name',
-        default: 'defaultTemplate'
-      })
-  }, (argv) => {
-    CreateArtifact([argv.artifact_type as string, 'new', '--name', argv.ArtifactName as string]);
-  })
+  .command(new Networks())
+  .command(
+    'create <artifact_type> <ArtifactName>',
+    'Create artifact',
+    yargs => {
+      yargs
+        .positional('artifact_type', {
+          describe: 'Artifact type',
+          default: 'test'
+        })
+        .positional('ArtifactName', {
+          describe: 'Artifact name',
+          default: 'defaultTemplate'
+        });
+    },
+    argv => {
+      CreateArtifact([
+        argv.artifact_type as string,
+        'new',
+        '--name',
+        argv.ArtifactName as string
+      ]);
+    }
+  )
   .help().argv;

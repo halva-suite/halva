@@ -18,6 +18,7 @@
     "test": "node --experimental-repl-await --require ts-node/register ./src/cli.ts test -p ./src/tests/ -n test",
     "migrate": "node --experimental-repl-await --require ts-node/register ./src/cli.ts migrate -p ./migrations-example/ -n test",
     "create": "node --experimental-repl-await --require ts-node/register ./src/cli.ts create test newTest",
+    "networks": "node --experimental-repl-await --require ts-node/register ./src/cli.ts networks",
     "console": "node --experimental-repl-await --require ts-node/register ./src/cli.ts console",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",

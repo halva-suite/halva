@@ -1,7 +1,7 @@
 import { runner } from 'hygen';
 import { join } from 'path';
-const Logger = require('hygen/lib/logger')
-const defaultTemplates = join(__dirname, '../src/templates')
+const Logger = require('hygen/lib/logger');
+const defaultTemplates = join(__dirname, '../src/templates');
 
 export const CreateArtifact = (argv: string[]) => {
   runner(argv, {
@@ -10,8 +10,8 @@ export const CreateArtifact = (argv: string[]) => {
     logger: new Logger(console.log.bind(console)),
     createPrompter: () => require('enquirer'),
     exec: (action, body) => {
-      const opts = body && body.length > 0 ? { input: body } : {}
-      return require('execa').shell(action, opts)
-    },
-   })
-}
+      const opts = body && body.length > 0 ? { input: body } : {};
+      return require('execa').shell(action, opts);
+    }
+  });
+};
