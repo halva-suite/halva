@@ -33,6 +33,9 @@ export class HalvaTestConfig {
         this.testingFiles = filesPath.map( f => resolve(f));
       }
     }
+    else {
+      throw new Error('No files for test')
+    }
     this.mocha = mocha || {};
     this.bail = bail;
     this.debug = debug;
