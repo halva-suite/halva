@@ -1,4 +1,4 @@
-import { readdirSync } from 'fs';
+import { readdirSync, lstatSync } from 'fs';
 import { MochaOptions } from 'mocha';
 import { join, resolve } from 'path';
 import { getConfigureModule } from '../../Configure/FindConfigFile';
@@ -13,7 +13,7 @@ export class HalvaTestConfig {
   public debug: boolean;
   public networkList: any;
   constructor(
-    filesPath: string,
+    filesPath: string[],
     mocha?: MochaOptions,
     network?: string,
     networkName?: string,
@@ -22,10 +22,16 @@ export class HalvaTestConfig {
     colors = false,
     debug = true
   ) {
-    if (filesPath) {
-      this.testingFiles = readdirSync(filesPath).map(file =>
-        join(filesPath, file)
-      );
+    this.testingFiles = [];
+    if (filesPath && filesPath.length > 0) {
+      if(lstatSync(filesPath[0]).isDirectory()) {
+        filesPath.forEach(path => {
+          this.testingFiles.push(...readdirSync(resolve(path)).map( f => join(path, f)));
+        })
+      }
+      else if(lstatSync(filesPath[0]).isFile()) {
+        this.testingFiles = filesPath.map( f => resolve(f));
+      }
     }
     this.mocha = mocha || {};
     this.bail = bail;

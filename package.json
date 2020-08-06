@@ -15,7 +15,7 @@
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
-    "test": "node --experimental-repl-await --require ts-node/register ./src/cli.ts test -p ./src/tests/ -n test",
+    "test": "node --experimental-repl-await --require ts-node/register ./src/cli.ts test -p ./src/tests/*.test.js -n test",
     "migrate": "node --experimental-repl-await --require ts-node/register ./src/cli.ts migrate -p ./migrations-example/ -n test",
     "create": "node --experimental-repl-await --require ts-node/register ./src/cli.ts create test newTest",
     "networks": "node --experimental-repl-await --require ts-node/register ./src/cli.ts networks",
