@@ -24,17 +24,17 @@ export class HalvaTestConfig {
   ) {
     this.testingFiles = [];
     if (filesPath && filesPath.length > 0) {
-      if(lstatSync(filesPath[0]).isDirectory()) {
+      if (lstatSync(filesPath[0]).isDirectory()) {
         filesPath.forEach(path => {
-          this.testingFiles.push(...readdirSync(resolve(path)).map( f => join(path, f)));
-        })
+          this.testingFiles.push(
+            ...readdirSync(resolve(path)).map(f => join(path, f))
+          );
+        });
+      } else if (lstatSync(filesPath[0]).isFile()) {
+        this.testingFiles = filesPath.map(f => resolve(f));
       }
-      else if(lstatSync(filesPath[0]).isFile()) {
-        this.testingFiles = filesPath.map( f => resolve(f));
-      }
-    }
-    else {
-      throw new Error('No files for test')
+    } else {
+      throw new Error('No files for test');
     }
     this.mocha = mocha || {};
     this.bail = bail;
@@ -44,7 +44,9 @@ export class HalvaTestConfig {
       ? getConfigureModule(null)
       : resolve(network));
     this.network = this.networkList.networks[
-      networkName == null ? Object.keys(this.networkList.networks)[0] : networkName
+      networkName == null
+        ? Object.keys(this.networkList.networks)[0]
+        : networkName
     ];
     this.networkName = networkName;
     this.colors = colors;

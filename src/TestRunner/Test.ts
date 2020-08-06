@@ -35,7 +35,10 @@ declare global {
   var chainMetadata: Metadata;
 }
 
-export const HalvaRunTests = async (config: HalvaTestConfig, onlyGlobal = false) => {
+export const HalvaRunTests = async (
+  config: HalvaTestConfig,
+  onlyGlobal = false
+) => {
   const provider = new WsProvider(config.network.ws);
   const polkadot = await ApiPromise.create({ provider });
   const accounts = await generateAccounts(10, config.network.mnemonic);
@@ -55,7 +58,7 @@ export const HalvaRunTests = async (config: HalvaTestConfig, onlyGlobal = false)
     mocha,
     metadata
   );
-  if(!onlyGlobal) {
+  if (!onlyGlobal) {
     config.testingFiles = config.testingFiles.map(testFile => {
       return path.resolve(testFile);
     });
@@ -63,12 +66,12 @@ export const HalvaRunTests = async (config: HalvaTestConfig, onlyGlobal = false)
       mocha.addFile(file);
     });
     console.log('Run tests: ' + config.testingFiles);
-  const runner = mocha.run();
-  Promise.resolve(resolve => {
-    runner.run(fail => {
-      resolve(fail);
+    const runner = mocha.run();
+    Promise.resolve(resolve => {
+      runner.run(fail => {
+        resolve(fail);
+      });
     });
-  });
   }
 };
 

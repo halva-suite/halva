@@ -12,11 +12,15 @@ export const GetNetworks = (config: HalvaTestConfig): NetworkGet[] => {
   let deployData = JSON.parse(
     readFileSync(process.cwd() + '/deployData.json').toString()
   ) as DeployData;
-  if(!deployData) {
+  if (!deployData) {
     let nets_noDeploy: NetworkGet[];
     networks.forEach(n => {
-      nets_noDeploy.push({name: n, address: config.network.networks[n].ws as string, contracts: null});
-    })
+      nets_noDeploy.push({
+        name: n,
+        address: config.network.networks[n].ws as string,
+        contracts: null
+      });
+    });
     return nets_noDeploy;
   }
   for (let i = 0; i < deployData.networks.length; i++) {
@@ -27,7 +31,7 @@ export const GetNetworks = (config: HalvaTestConfig): NetworkGet[] => {
   if (networks.length == 0) {
     console.warn('Networks not found');
   }
-  let networkList: NetworkGet[]
+  let networkList: NetworkGet[];
   networkList = [];
   networks.forEach(net => {
     let currentNetwork = deployData.networks.find(x => x.networkName == net);

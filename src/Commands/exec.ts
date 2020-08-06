@@ -8,18 +8,19 @@ export class Exec implements yargs.CommandModule {
   public describe = 'Execute js file';
 
   public builder(args: yargs.Argv) {
-    return args.option('p', {
-      alias: 'path',
-      type: 'string',
-      required: false,
-      describe: 'Path to configure file'
-    })
-    .option('f', {
-      alias: 'file',
-      type: 'string',
-      required: true,
-      describe: 'Path to execute file'
-    });
+    return args
+      .option('p', {
+        alias: 'path',
+        type: 'string',
+        required: false,
+        describe: 'Path to configure file'
+      })
+      .option('f', {
+        alias: 'file',
+        type: 'string',
+        required: true,
+        describe: 'Path to execute file'
+      });
   }
 
   public async handler(args: yargs.Arguments) {

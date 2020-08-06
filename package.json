@@ -20,6 +20,7 @@
     "create": "node --experimental-repl-await --require ts-node/register ./src/cli.ts create test newTest",
     "networks": "node --experimental-repl-await --require ts-node/register ./src/cli.ts networks",
     "exec": "node --experimental-repl-await --require ts-node/register ./src/cli.ts exec -f ./testFile.js",
+    "config-set": "node --experimental-repl-await --require ts-node/register ./src/cli.ts config set gg wp",
     "console": "node --experimental-repl-await --require ts-node/register ./src/cli.ts console",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
