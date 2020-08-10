@@ -58,6 +58,7 @@ export const RunMigration = async (
     process.cwd() + '/deployData.json',
     JSON.stringify(deployer.data)
   );
+  process.exit(0);
 };
 
 export interface MigrationContract {
