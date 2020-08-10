@@ -17,7 +17,6 @@ import testKeyring from '@polkadot/keyring/testing';
 import { ALICE, CHARLIE, BOB } from '../Deployer/consts';
 // tslint:disable: variable-name
 declare global {
-  var halva_polkadot: ApiPromise;
   var expect;
   var assert;
   var artifacts: artifacts;
@@ -26,7 +25,7 @@ declare global {
   var alicePair: KeyringPair;
   var bobPair: KeyringPair;
   var charliePair: KeyringPair;
-  var halva_accounts: KeyringPair[];
+  var halva: halva;
   var debug: boolean;
   var eventNotEmitted;
   var eventEmitted;
@@ -50,6 +49,9 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
   const alicePair = keyring.getPair(ALICE);
   const charliePair = keyring.getPair(CHARLIE);
   const metadata = await polkadot.rpc.state.getMetadata();
+  if(!metadata) {
+    throw new Error('Metadata is undefined');
+  }
   const bobPair = keyring.getPair(BOB);
   SetTestGlobal(
     accounts,
@@ -80,7 +82,7 @@ export const SetTestGlobal = (
   mochaConfigure: Mocha,
   metadata: Metadata
 ) => {
-  globalThis.halva_accounts = accounts;
+  globalThis.halva = { polkadot, accounts };
   globalThis.expect = expect;
   globalThis.artifacts = artifacts;
   globalThis.alicePair = alicePair;
@@ -89,7 +91,6 @@ export const SetTestGlobal = (
   globalThis.assert = assert;
   globalThis.eventEmitted = eventEmitted;
   globalThis.eventNotEmitted = eventNotEmitted;
-  globalThis.halva_polkadot = polkadot;
   globalThis.networkName = config.networkName;
   globalThis.mochaConfigure = mochaConfigure;
   globalThis.passes = passes;
@@ -116,3 +117,8 @@ export const CreateMocha = (config: HalvaTestConfig): Mocha => {
 
   return mocha;
 };
+
+interface halva {
+  accounts: KeyringPair[];
+  polkadot: ApiPromise;
+}
