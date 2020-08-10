@@ -21,4 +21,3 @@ export const configChange = (
     throw new Error('invalid accessor');
   }
 };
-

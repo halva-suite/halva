@@ -1,7 +1,7 @@
 import { runner } from 'hygen';
 import { join } from 'path';
 const Logger = require('hygen/lib/logger');
-const defaultTemplates = join(__dirname, '../src/templates');
+const defaultTemplates = join(__dirname, '../_templates');
 
 export const CreateArtifact = (argv: string[]) => {
   runner(argv, {

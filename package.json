@@ -10,7 +10,7 @@
   "keywords": [],
   "scripts": {
     "describe": "npm-scripts-info",
-    "build": "run-s clean && run-p build:*",
+    "build": "run-s clean && run-p build:* && cp -arv _templates/ build/main",
     "build:main": "tsc -p tsconfig.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -22,6 +22,7 @@
     "exec": "node --experimental-repl-await --require ts-node/register ./src/cli.ts exec -f ./testFile.js",
     "config-set": "node --experimental-repl-await --require ts-node/register ./src/cli.ts config set gg wp",
     "console": "node --experimental-repl-await --require ts-node/register ./src/cli.ts console",
+    "init": "node --experimental-repl-await --require ts-node/register ./src/cli.ts init --force",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
     "cov": "run-s build test:unit cov:html && open-cli coverage/index.html",
     "cov:html": "nyc report --reporter=html",

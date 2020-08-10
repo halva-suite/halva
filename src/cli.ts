@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { Init } from './Commands/init';
 import yargs from 'yargs';
 import { Console } from './Commands/console';
 import { Exec } from './Commands/exec';
@@ -17,6 +18,7 @@ yargs
   .command(new Migrate())
   .command(new Networks())
   .command(new Exec())
+  .command(new Init())
   .command(
     'create <artifact_type> <ArtifactName>',
     'Create artifact',
