@@ -33,7 +33,7 @@ export class artifacts {
     } else {
       data = fn(args);
     }
-    return callContract(halva_polkadot, signer, contract.address, data);
+    return callContract(halva.polkadot, signer, contract.address, data);
   }
 
   public static async ReturnRPCResult(
@@ -49,7 +49,7 @@ export class artifacts {
     } else {
       data = fn(args);
     }
-    return callContractRPC(halva_polkadot, signer, contract.address, data);
+    return callContractRPC(halva.polkadot, signer, contract.address, data);
   }
   private static CreateContractObject(
     contract: DeployData,

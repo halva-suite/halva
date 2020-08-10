@@ -49,7 +49,7 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
   const alicePair = keyring.getPair(ALICE);
   const charliePair = keyring.getPair(CHARLIE);
   const metadata = await polkadot.rpc.state.getMetadata();
-  if(!metadata) {
+  if (!metadata) {
     throw new Error('Metadata is undefined');
   }
   const bobPair = keyring.getPair(BOB);
