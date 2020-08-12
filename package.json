@@ -15,7 +15,7 @@
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
     "fix:tslint": "tslint --fix --project .",
-    "test": "node --experimental-repl-await --require ts-node/register ./src/cli.ts test -p ./src/tests/ -n test",
+    "test": "./node_modules/mocha/bin/mocha -r ts-node/register src/**/*.test.ts",
     "migrate": "node --experimental-repl-await --require ts-node/register ./src/cli.ts migrate -p ./migrations-example/ -n test",
     "console": "node --experimental-repl-await --require ts-node/register ./src/cli.ts console",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
