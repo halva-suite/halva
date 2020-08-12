@@ -11,7 +11,7 @@ import {
   passes,
   fails
 } from '../Assert/Asserts';
-import { artifacts } from '../MIgrator/Artifacts';
+import { artifacts } from '../Migrator/Artifacts';
 import { HalvaTestConfig } from './Config/HalvaTestConfig';
 import testKeyring from '@polkadot/keyring/testing';
 import { ALICE, CHARLIE, BOB } from '../Deployer/consts';
@@ -48,9 +48,13 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
   const charliePair = keyring.getPair(CHARLIE);
-  const metadata = await polkadot.rpc.state.getMetadata();
-  if (!metadata) {
-    throw new Error('Metadata is undefined');
+  let metadata : Metadata;
+  try {
+    metadata = await polkadot.rpc.state.getMetadata();
+  }
+  catch(err) {
+    console.log('Metadata is undefined')
+    process.exit(0);
   }
   const bobPair = keyring.getPair(BOB);
   SetTestGlobal(

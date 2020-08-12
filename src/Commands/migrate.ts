@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import { RunMigration } from '../MIgrator/Migration';
+import { RunMigration } from '../Migrator/Migration';
 import { HalvaTestConfig } from '../TestRunner';
 
 export class Migrate implements yargs.CommandModule {

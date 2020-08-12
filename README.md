@@ -95,8 +95,8 @@ describe('Halva test', () => {
 ```
 
 ### Variable list:
-* `halva_accounts` - 10 Keyring pairs for tests
-* `halva_polkadot` - ApiPromise object of polkadot
+* `halva.accounts` - 10 Keyring pairs for tests
+* `halva.polkadot` - ApiPromise object of polkadot
 * `alicePair` - KeyringPair object of Alice
 * `bobPair` - KeyringPair object of Bob
 * `charliePair` - KeyringPair object of Charlie

@@ -1,7 +1,7 @@
 describe('Halva test', () => {
   describe('test global', () => {
     it('Get global var', async () => {
-        console.log(halva_accounts[0].address);
+        console.log(halva.accounts[0].address);
     });
   });
 });
