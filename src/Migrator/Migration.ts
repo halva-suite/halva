@@ -32,11 +32,10 @@ export class Migration {
     } else {
       this.parent.data.networks.push({
         networkName: this.config.networkName,
-        networkAddress: this.config.network.ws as string,
+        networkAddress: this.config.halvaJs.ws as string,
         contracts: [data]
       });
     }
-    console.log(this.parent.data);
     return data;
   }
 }
@@ -59,6 +58,7 @@ export const RunMigration = async (
     process.cwd() + '/deployData.json',
     JSON.stringify(deployer.data)
   );
+  process.exit(0);
 };
 
 export interface MigrationContract {

@@ -1,6 +1,6 @@
 import { Abi } from '@polkadot/api-contract';
 import { Address } from '@polkadot/types/interfaces';
-import { MigrationContract } from '../MIgrator/Migration';
+import { MigrationContract } from '../Migrator/Migration';
 
 export class Contract {
   public path: MigrationContract;

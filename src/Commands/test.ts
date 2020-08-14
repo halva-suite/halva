@@ -2,15 +2,16 @@ import yargs from 'yargs';
 import { HalvaRunTests, HalvaTestConfig } from '../TestRunner';
 
 export class Test implements yargs.CommandModule {
-  command = 'test';
-  describe = 'Run tests';
+  public command = 'test';
+  public describe = 'Run tests';
 
-  builder(args: yargs.Argv) {
+  public builder(args: yargs.Argv) {
     return args
       .option('p', {
         alias: 'path',
         type: 'string',
-        required: true,
+        default: './test/',
+        required: false,
         describe: 'Path to test folder'
       })
       .option('c', {
@@ -34,6 +35,13 @@ export class Test implements yargs.CommandModule {
         default: null,
         describe: 'Enable bail'
       })
+      .option('d', {
+        alias: 'debug',
+        type: 'boolean',
+        required: false,
+        default: true,
+        describe: 'Wite debug info'
+      })
       .option('t', {
         alias: 'timeout',
         type: 'number',
@@ -43,7 +51,7 @@ export class Test implements yargs.CommandModule {
       });
   }
 
-  async handler(args: yargs.Arguments) {
+  public async handler(args: yargs.Arguments) {
     HalvaRunTests(
       new HalvaTestConfig(
         args.p as string,

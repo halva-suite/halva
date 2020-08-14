@@ -1,11 +1,20 @@
-import { readdirSync } from 'fs';
+import { existsSync } from 'fs';
 import { join } from 'path';
+
 export function getConfigureModule(filename: string): string {
-  const files = readdirSync(process.cwd());
-  return join(
-    process.cwd(),
-    files
-      .find(file => file.match(new RegExp(`${filename}`, 'gm')))
-      .replace('.js', '')
-  );
+  if (!filename) {
+    filename = 'halva.js';
+  }
+
+  let configPath = filename;
+
+  if (!filename.match('/')) {
+    configPath = join(process.cwd(), filename);
+  }
+
+  if (!existsSync(configPath)) {
+    throw new Error(`Could not find suitable configuration file.`);
+  }
+
+  return configPath;
 }

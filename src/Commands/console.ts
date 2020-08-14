@@ -1,20 +1,22 @@
 import yargs from 'yargs';
 import { run } from '../Repl/repl';
+import { getConfigureModule } from '../Configure/FindConfigFile';
 
 export class Console implements yargs.CommandModule {
-  command = 'console';
-  describe = 'Run console';
+  public command = 'console';
+  public describe = 'Run console';
 
-  builder(args: yargs.Argv) {
+  public builder(args: yargs.Argv) {
     return args.option('p', {
       alias: 'path',
       type: 'string',
-      required: true,
+      required: false,
       describe: 'Path to configure file'
     });
   }
 
-  async handler(args: yargs.Arguments) {
-    run(args.p as string);
+  public async handler(args: yargs.Arguments) {
+    const path = getConfigureModule(args.p as string);
+    run(path as string);
   }
 }

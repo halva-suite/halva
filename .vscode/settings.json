@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "polkadot"
-    ]
+    ],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
 }
