@@ -41,11 +41,7 @@ Halva uses [Polkadot.js](https://github.com/polkadot-js)
 npm install -g halva-cli
 ```
 
-2. Install NPM packages
-```sh
-npm install
-```
-3. Configure your network in `halva.js`
+2. Configure your network in `halva.js`
 ```JS
 const mnemonic = "bottom drive obey lake curtain smoke basket hold race lonely fit walk";
 
