@@ -10,7 +10,8 @@ export class Test implements yargs.CommandModule {
       .option('p', {
         alias: 'path',
         type: 'string',
-        required: true,
+        default: './test/',
+        required: false,
         describe: 'Path to test folder'
       })
       .option('c', {
@@ -33,6 +34,20 @@ export class Test implements yargs.CommandModule {
         required: false,
         default: null,
         describe: 'Enable bail'
+      })
+      .option('d', {
+        alias: 'debug',
+        type: 'boolean',
+        required: false,
+        default: true,
+        describe: 'Wite debug info'
+      })
+      .option('t', {
+        alias: 'timeout',
+        type: 'number',
+        required: false,
+        default: 0,
+        describe: 'Timeout time for test'
       });
   }
 
@@ -43,7 +58,8 @@ export class Test implements yargs.CommandModule {
         null,
         args.c as string,
         args.n as string,
-        args.b as boolean
+        args.b as boolean,
+        args.t as number
       )
     );
   }

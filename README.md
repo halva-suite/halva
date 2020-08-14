@@ -18,6 +18,8 @@
     <br />
     <a href="https://github.com/halva-suite/halva/issues">Report Bug</a> |
     <a href="https://github.com/halva-suite/halva/issues">Request Feature</a>
+    <br />
+    <p align="center"><b>🔥 ATTENTION 🔥</br> The module has been tested on Substrate <ins>2.0.0-rc5-2</ins> version, work on other versions is not guaranteed</b></p>
   </p>
 </p>
 
@@ -34,9 +36,9 @@ Halva uses [Polkadot.js](https://github.com/polkadot-js)
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Clone the repo
+1. Install `halva-cli`
 ```sh
-git clone https://github.com/halva-suite/halva
+npm install -g @halva-suite/halva-cli
 ```
 
 2. Install NPM packages
@@ -52,9 +54,14 @@ module.exports = {
     test: {
       mnemonic,
       ws: "ws://127.0.0.1:9944",
-    }
-  }
+    },
+  },
+  polkadotjs: {
+    provider: { },
+    types: { }
+   },
 }
+
 ```
 
 <!-- USAGE EXAMPLES -->
@@ -63,14 +70,55 @@ module.exports = {
 To run all tests, run:
 
 ```sh
-npm test
+halva-cli test  -p /path/to/tests/folder -n networkName
+```
+If you need help, use
+
+```sh
+halva-cli --help
 ```
 
 To run REPL, simple run:
 
 ```sh
-npm run console
+halva-cli console
 ```
+
+## Test global scope
+
+  You can use global variables provided by halva
+
+```js
+describe('Halva test', () => {
+
+  describe('test global', () => {
+    it('Get global var', async () => {
+        console.log(halva.accounts[0].address); // halva_account global var
+    });
+  });
+});
+```
+
+### Variable list:
+* `halva.accounts` - 10 Keyring pairs for tests
+* `halva.polkadot` - ApiPromise object of polkadot
+* `alicePair` - KeyringPair object of Alice
+* `bobPair` - KeyringPair object of Bob
+* `charliePair` - KeyringPair object of Charlie
+* `networkName` - Current network name
+* `chainMetadata` - Metadata object 
+* `mochaConfigure` - Current Mocha configuration object
+
+## Assertions
+
+`Halva` has its own assertion for working with `extrinsic` and `contracts` (in the future)
+
+### Assertion list: 
+
+* `passes(asyncFn, message, signer)` - Error if extrinsic call fails
+* `eventEmitted(asyncFn, eventName, section, message, signer)` - Error if the event was not emitted in the transaction
+* `eventNotEmitted(asyncFn, eventName, section, message, signer)` - Error if the event was emitted in a transaction
+* `fails(asyncFn, errorName, module, signer, message)` - Error if the call ended without errors or with some other error
 
 <!-- ROADMAP -->
 ## Roadmap
