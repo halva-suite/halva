@@ -38,7 +38,7 @@ Halva uses [Polkadot.js](https://github.com/polkadot-js)
 
 1. Install `halva-cli`
 ```sh
-npm install -g @halva-suite/halva-cli
+npm install -g halva-cli
 ```
 
 2. Install NPM packages
