@@ -6,7 +6,7 @@ export class HalvaTestConfig {
   public testingFiles: string[];
   public mocha: MochaOptions;
   public bail: boolean;
-  public network: any;
+  public halvaJs: any;
   public colors?: boolean;
   public networkName: string;
   public timeout: number;
@@ -35,12 +35,12 @@ export class HalvaTestConfig {
     this.bail = bail;
     this.debug = debug;
     this.timeout = timeout;
-    this.network = require(network == null
+    this.halvaJs = require(network == null
       ? getConfigureModule(null)
       : resolve(network));
-    this.types = this.network.polkadotjs.types;
-    this.network = this.network.networks[
-      networkName == null ? Object.keys(this.network.networks)[0] : networkName
+    this.types = this.halvaJs.polkadotjs?.types == undefined ? null : this.halvaJs.polkadotjs.types;
+    this.halvaJs = this.halvaJs.networks[
+      networkName == null ? Object.keys(this.halvaJs.networks)[0] : networkName
     ];
     this.networkName = networkName;
     this.colors = colors;

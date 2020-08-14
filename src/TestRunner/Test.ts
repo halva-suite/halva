@@ -38,9 +38,9 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
   config.testingFiles = config.testingFiles.map(testFile => {
     return path.resolve(testFile);
   });
-  const provider = new WsProvider(config.network.ws);
+  const provider = new WsProvider(config.halvaJs.ws);
   const polkadot = await ApiPromise.create({ provider, types: config.types });
-  const accounts = await generateAccounts(10, config.network.mnemonic);
+  const accounts = await generateAccounts(10, config.halvaJs.mnemonic);
   const mocha = CreateMocha(config);
   config.testingFiles.forEach(file => {
     mocha.addFile(file);
