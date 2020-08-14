@@ -39,7 +39,7 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
     return path.resolve(testFile);
   });
   const provider = new WsProvider(config.network.ws);
-  const polkadot = await ApiPromise.create({ provider });
+  const polkadot = await ApiPromise.create({ provider, types: config.types });
   const accounts = await generateAccounts(10, config.network.mnemonic);
   const mocha = CreateMocha(config);
   config.testingFiles.forEach(file => {
@@ -48,12 +48,11 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
   const charliePair = keyring.getPair(CHARLIE);
-  let metadata : Metadata;
+  let metadata: Metadata;
   try {
     metadata = await polkadot.rpc.state.getMetadata();
-  }
-  catch(err) {
-    console.log('Metadata is undefined')
+  } catch (err) {
+    console.log('Metadata is undefined');
     process.exit(0);
   }
   const bobPair = keyring.getPair(BOB);

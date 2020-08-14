@@ -54,9 +54,14 @@ module.exports = {
     test: {
       mnemonic,
       ws: "ws://127.0.0.1:9944",
-    }
-  }
+    },
+  },
+  polkadotjs: {
+    provider: { },
+    types: { }
+   },
 }
+
 ```
 
 <!-- USAGE EXAMPLES -->
@@ -65,7 +70,7 @@ module.exports = {
 To run all tests, run:
 
 ```sh
-halva-cli test  -p /path/to/tests/folder
+halva-cli test  -p /path/to/tests/folder -n networkName
 ```
 If you need help, use
 

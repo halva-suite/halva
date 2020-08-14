@@ -118,7 +118,7 @@ export const deployContract = async (
   config: HalvaTestConfig
 ): Promise<Contract> => {
   const provider = new WsProvider(config.network.ws);
-  const polkadot = await ApiPromise.create({ provider });
+  const polkadot = await ApiPromise.create({ provider, types: config.types });
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
   const hash = await UploadContract(contract, polkadot, alicePair);
