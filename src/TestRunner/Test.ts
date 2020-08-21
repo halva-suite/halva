@@ -86,21 +86,21 @@ export const SetTestGlobal = (
   mochaConfigure: Mocha,
   metadata: Metadata
 ) => {
-  globalThis.halva = { polkadot, accounts };
-  globalThis.expect = expect;
-  globalThis.artifacts = artifacts;
-  globalThis.alicePair = alicePair;
-  globalThis.bobPair = bobPair;
-  globalThis.charliePair = charliePair;
-  globalThis.assert = assert;
-  globalThis.eventEmitted = eventEmitted;
-  globalThis.eventNotEmitted = eventNotEmitted;
-  globalThis.networkName = config.networkName;
-  globalThis.mochaConfigure = mochaConfigure;
-  globalThis.passes = passes;
-  globalThis.debug = config.debug;
-  globalThis.chainMetadata = metadata;
-  globalThis.fails = fails;
+  global.halva = { polkadot, accounts };
+  global.expect = expect;
+  global.artifacts = artifacts;
+  global.alicePair = alicePair;
+  global.bobPair = bobPair;
+  global.charliePair = charliePair;
+  global.assert = assert;
+  global.eventEmitted = eventEmitted;
+  global.eventNotEmitted = eventNotEmitted;
+  global.networkName = config.networkName;
+  global.mochaConfigure = mochaConfigure;
+  global.passes = passes;
+  global.debug = config.debug;
+  global.chainMetadata = metadata;
+  global.fails = fails;
 };
 
 export const CreateMocha = (config: HalvaTestConfig): Mocha => {

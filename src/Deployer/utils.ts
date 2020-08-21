@@ -21,8 +21,8 @@ export async function sendAndReturnFinalized(
   return new Promise((resolve, reject) => {
     tx.signAndSend(signer, (result: SubmittableResult) => {
       if (result.status.isInBlock) {
-        if (!globalThis.debug) {
-          globalThis.debug = true;
+        if (!global.debug) {
+          global.debug = true;
         }
         if (debug) console.log(`Write in block: ${result.status.asInBlock}`);
         // Return the result of the submittable extrinsic after the transfer is finalized
