@@ -26,7 +26,7 @@ declare global {
   var bobPair: KeyringPair;
   var charliePair: KeyringPair;
   var halva: halva;
-  var debug: boolean;
+  var verbose: boolean;
   var eventNotEmitted;
   var eventEmitted;
   var passes;
@@ -98,7 +98,7 @@ export const SetTestGlobal = (
   global.networkName = config.networkName;
   global.mochaConfigure = mochaConfigure;
   global.passes = passes;
-  global.debug = config.debug;
+  global.verbose = config.verbose;
   global.chainMetadata = metadata;
   global.fails = fails;
 };
