@@ -10,7 +10,7 @@
   "keywords": [],
   "scripts": {
     "describe": "npm-scripts-info",
-    "build": "run-s clean && run-p build:*",
+    "build": "run-s clean && run-p build:* && cp -arv _templates/ build/main",
     "build:main": "tsc -p tsconfig.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
