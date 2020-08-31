@@ -7,7 +7,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/halva-suite/PoC">
+  <a href="https://github.com/halva-suite/halva">
     <img src="https://avatars2.githubusercontent.com/u/67451441?s=400&u=16f743b727e0d20fb8883c9794a87c9d5732fe67&v=4" alt="Logo" width="100" height="100">
   </a>
 
@@ -19,7 +19,7 @@
     <a href="https://github.com/halva-suite/halva/issues">Report Bug</a> |
     <a href="https://github.com/halva-suite/halva/issues">Request Feature</a>
     <br />
-    <p align="center"><b>🔥 ATTENTION 🔥</br> The module has been tested on Substrate <ins>2.0.0-rc4</ins> version, work on other versions is not guaranteed</b></p>
+    <p align="center"><b>🔥 ATTENTION 🔥</br> The module has been tested on Substrate <ins>2.0.0-rc5-2</ins> version, work on other versions is not guaranteed</b></p>
   </p>
 </p>
 
@@ -38,14 +38,10 @@ Halva uses [Polkadot.js](https://github.com/polkadot-js)
 
 1. Install `halva-cli`
 ```sh
-npm install -g @halva-suite/halva-cli
+npm install -g halva-cli
 ```
 
-2. Install NPM packages
-```sh
-npm install
-```
-3. Configure your network in `halva.js`
+2. Configure your network in `halva.js`
 ```JS
 const mnemonic = "bottom drive obey lake curtain smoke basket hold race lonely fit walk";
 
@@ -54,9 +50,14 @@ module.exports = {
     test: {
       mnemonic,
       ws: "ws://127.0.0.1:9944",
-    }
-  }
+    },
+  },
+  polkadotjs: {
+    provider: { },
+    types: { }
+   },
 }
+
 ```
 
 <!-- USAGE EXAMPLES -->
@@ -65,7 +66,7 @@ module.exports = {
 To run all tests, run:
 
 ```sh
-halva-cli test  -p /path/to/tests/folder
+halva-cli test  -p /path/to/tests/folder -n networkName
 ```
 If you need help, use
 
@@ -88,15 +89,15 @@ describe('Halva test', () => {
 
   describe('test global', () => {
     it('Get global var', async () => {
-        console.log(halva_accounts[0].address); // halva_account global var
+        console.log(halva.accounts[0].address); // halva_account global var
     });
   });
 });
 ```
 
 ### Variable list:
-* `halva_accounts` - 10 Keyring pairs for tests
-* `halva_polkadot` - ApiPromise object of polkadot
+* `halva.accounts` - 10 Keyring pairs for tests
+* `halva.polkadot` - ApiPromise object of polkadot
 * `alicePair` - KeyringPair object of Alice
 * `bobPair` - KeyringPair object of Bob
 * `charliePair` - KeyringPair object of Charlie
@@ -145,8 +146,15 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Project Link: [https://github.com/halva-suite/halva](https://github.com/halva-suite/halva)
 
+<a href="http://wintex.pro/" target="_blank">
+  <img src="https://github.com/halva-suite/assets/blob/master/wintex.png?raw=true" width="200" />
+</a>
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[wintex-url]: http://wintex.pro/
+[wintex-logo]: https://github.com/halva-suite/assets/blob/master/wintex.png?raw=true
 [contributors-shield]: https://img.shields.io/github/contributors/halva-suite/halva.svg?style=flat-square
 [contributors-url]: https://github.com/halva-suite/halva/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/halva-suite/halva.svg?style=flat-square

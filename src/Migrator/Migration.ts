@@ -32,7 +32,7 @@ export class Migration {
     } else {
       this.parent.data.networks.push({
         networkName: this.config.networkName,
-        networkAddress: this.config.network.ws as string,
+        networkAddress: this.config.halvaJs.ws as string,
         contracts: [data]
       });
     }

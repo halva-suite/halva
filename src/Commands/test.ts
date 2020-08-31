@@ -10,9 +10,9 @@ export class Test implements yargs.CommandModule {
       .option('p', {
         alias: 'path',
         type: 'string',
-        required: true,
-        describe: 'Path to test folder',
-        array: true
+        default: './test/',
+        required: false,
+        describe: 'Path to test folder'
       })
       .option('c', {
         alias: 'config',
@@ -35,11 +35,11 @@ export class Test implements yargs.CommandModule {
         default: null,
         describe: 'Enable bail'
       })
-      .option('d', {
-        alias: 'debug',
+      .option('v', {
+        alias: 'verbose',
         type: 'boolean',
         required: false,
-        default: true,
+        default: false,
         describe: 'Wite debug info'
       })
       .option('t', {
@@ -58,8 +58,10 @@ export class Test implements yargs.CommandModule {
         null,
         args.c as string,
         args.n as string,
-        args.b as boolean,
-        args.t as number
+        args.d as boolean,
+        args.t as number,
+        null,
+        args.v as boolean,
       )
     );
   }

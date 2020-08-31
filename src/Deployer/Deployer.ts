@@ -4,6 +4,7 @@ import { ApiPromise, SubmittableResult, WsProvider } from '@polkadot/api';
 import testKeyring from '@polkadot/keyring/testing';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Address } from '@polkadot/types/interfaces';
+import { ContractExecResultSuccess } from '@polkadot/types/interfaces/contracts';
 import BN from 'bn.js';
 import { readFileSync } from 'fs';
 import { HalvaTestConfig } from '../TestRunner';
@@ -16,11 +17,11 @@ import {
   sendAndReturnFinalized
 } from './utils';
 
-export const UploadContract = async (
+export async function UploadContract(
   filePath: string,
   polkadot: ApiPromise,
-  account: KeyringPair
-) => {
+  account: KeyringPair,
+): Promise<string> {
   const tx = polkadot.tx.contracts.putCode(`0x${GetByteArray(filePath)}`);
   const result = await sendAndReturnFinalized(account, tx);
   const record = result.findRecord('contracts', 'CodeStored');
@@ -36,9 +37,9 @@ export const UploadContract = async (
     );
     process.exit(126);
   }
-  // Return code hash.
-  return record.event.data[0];
-};
+
+  return record.event.data[0].toString();
+}
 
 export const instantiate = async (
   api: ApiPromise,
@@ -72,7 +73,7 @@ export const instantiate = async (
 export const callContract = async (
   api: ApiPromise,
   signer: KeyringPair,
-  contractAddress: Address,
+  contractAddress: any,
   inputData: any,
   gasRequired: number = GAS_REQUIRED,
   endowment: number = 0
@@ -87,14 +88,14 @@ export const callContract = async (
   return result;
 };
 
-export const callContractRPC = async (
+export async function callContractRPC(
   api: ApiPromise,
   signer: KeyringPair,
   contractAddress: Address,
   inputData: any,
   gasRequired: number = GAS_REQUIRED,
   endowment: number = 0
-) => {
+): Promise<ContractExecResultSuccess> {
   signer = signer;
   const rpc = await api.rpc.contracts.call({
     origin: signer.address,
@@ -108,7 +109,7 @@ export const callContractRPC = async (
     throw new Error('RPC cal is error');
   }
   return rpc.asSuccess;
-};
+}
 
 export const deployContract = async (
   contract: string,
@@ -117,8 +118,8 @@ export const deployContract = async (
   args: any,
   config: HalvaTestConfig
 ): Promise<Contract> => {
-  const provider = new WsProvider(config.network.ws);
-  const polkadot = await ApiPromise.create({ provider });
+  const provider = new WsProvider(config.halvaJs.ws);
+  const polkadot = await ApiPromise.create({ provider, types: config.types });
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
   const hash = await UploadContract(contract, polkadot, alicePair);
@@ -126,7 +127,7 @@ export const deployContract = async (
   const address = await instantiate(
     polkadot,
     alicePair,
-    hash.toString(),
+    hash,
     GetAbiData(abi, constructorIndex, args),
     CREATION_FEE
   );

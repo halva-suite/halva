@@ -5,7 +5,13 @@ export function getConfigureModule(filename: string): string {
   if (!filename) {
     filename = 'halva.js';
   }
-  const configPath = join(process.cwd(), filename);
+
+  let configPath = filename;
+
+  if (!filename.match('/')) {
+    configPath = join(process.cwd(), filename);
+  }
+
   if (!existsSync(configPath)) {
     throw new Error(`Could not find suitable configuration file.`);
   }

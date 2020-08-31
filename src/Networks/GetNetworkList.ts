@@ -1,6 +1,6 @@
 import { HalvaTestConfig } from '../TestRunner';
-import { readFileSync } from 'fs';
-import { DeployData } from '../MIgrator/DeployData';
+import { readFileSync, existsSync } from 'fs';
+import { DeployData } from '../Migrator/DeployData';
 
 export const GetNetworks = (config: HalvaTestConfig): NetworkGet[] => {
   let networks = [];
@@ -9,15 +9,20 @@ export const GetNetworks = (config: HalvaTestConfig): NetworkGet[] => {
     x = x;
     networks.push(key);
   }
-  let deployData = JSON.parse(
+  let deployData : any;
+  if(existsSync(process.cwd() + '/deployData.json')) {
+    deployData= JSON.parse(
     readFileSync(process.cwd() + '/deployData.json').toString()
   ) as DeployData;
+  }
   if (!deployData) {
+    deployData = [];
     let nets_noDeploy: NetworkGet[];
+    nets_noDeploy = [];
     networks.forEach(n => {
       nets_noDeploy.push({
         name: n,
-        address: config.network.networks[n].ws as string,
+        address: config.halvaJs.networks[n].ws as string,
         contracts: null
       });
     });
@@ -57,11 +62,13 @@ export const run = (config: HalvaTestConfig) => {
   const networkList = GetNetworks(config);
   networkList.forEach(n => {
     console.log(`\nNetwork: ${n.name} : WS: ${n.address}`);
-    n.contracts.forEach(c => {
-      console.log(
-        `\nContract name: ${c.name} : Address: ${c.address} : Deployed ${c.deployed}`
-      );
-    });
+    if(n.contracts) {
+      n.contracts.forEach(c => {
+        console.log(
+          `\nContract name: ${c.name} : Address: ${c.address} : Deployed ${c.deployed}`
+        );
+      });
+    }
   });
 };
 interface NetworkGet {
