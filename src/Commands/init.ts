@@ -13,6 +13,12 @@ export class Init implements yargs.CommandModule {
         required: false,
         describe: 'Box name'
       })
+      .option('p', {
+        alias: 'project-name',
+        type: 'string',
+        required: false,
+        describe: 'Project name'
+      })
       .option('f', {
         alias: 'force',
         type: 'boolean',
@@ -23,6 +29,6 @@ export class Init implements yargs.CommandModule {
   }
 
   public async handler(args: yargs.Arguments) {
-    InitMain(args.f as boolean, args.b as string);
+    InitMain(args.f as boolean, args.b as string, args.p as string);
   }
 }

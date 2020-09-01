@@ -34,7 +34,10 @@ declare global {
   var chainMetadata: Metadata;
 }
 
-export const HalvaRunTests = async (config: HalvaTestConfig,  onlyGlobal = false) => {
+export const HalvaRunTests = async (
+  config: HalvaTestConfig,
+  onlyGlobal = false
+) => {
   config.testingFiles = config.testingFiles.map(testFile => {
     return path.resolve(testFile);
   });

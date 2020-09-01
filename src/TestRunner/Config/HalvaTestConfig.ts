@@ -1,4 +1,4 @@
-import { readdirSync, lstatSync} from 'fs';
+import { readdirSync, lstatSync } from 'fs';
 import { MochaOptions } from 'mocha';
 import { join, resolve } from 'path';
 import { getConfigureModule } from '../../Configure/FindConfigFile';
@@ -25,7 +25,7 @@ export class HalvaTestConfig {
     isTest = false
   ) {
     this.testingFiles = [];
-    if(isTest) {
+    if (isTest) {
       if (filesPath && filesPath.length > 0) {
         if (lstatSync(filesPath[0]).isDirectory()) {
           filesPath.forEach(path => {
@@ -50,7 +50,10 @@ export class HalvaTestConfig {
     this.halvaJs = require(network == null
       ? getConfigureModule(null)
       : resolve(network));
-    this.types = this.halvaJs.polkadotjs?.types == undefined ? null : this.halvaJs.polkadotjs.types;
+    this.types =
+      this.halvaJs.polkadotjs?.types == undefined
+        ? null
+        : this.halvaJs.polkadotjs.types;
     this.networkName = networkName;
     this.colors = colors;
   }

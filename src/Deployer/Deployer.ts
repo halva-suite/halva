@@ -20,7 +20,7 @@ import {
 export async function UploadContract(
   filePath: string,
   polkadot: ApiPromise,
-  account: KeyringPair,
+  account: KeyringPair
 ): Promise<string> {
   const tx = polkadot.tx.contracts.putCode(`0x${GetByteArray(filePath)}`);
   const result = await sendAndReturnFinalized(account, tx);
