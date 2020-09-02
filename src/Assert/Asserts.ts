@@ -15,7 +15,7 @@ export const eventEmitted = async (
   signer: KeyringPair
 ) => {
   let txResult: SubmittableResult;
-  if (asyncFn instanceof SubmittableResult) {
+  if (SubmittableResultOf(asyncFn)) {
     txResult = asyncFn;
   } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
@@ -40,7 +40,7 @@ export const eventNotEmitted = async (
   signer: KeyringPair
 ) => {
   let txResult: SubmittableResult;
-  if (asyncFn instanceof SubmittableResult) {
+  if (SubmittableResultOf(asyncFn)) {
     txResult = asyncFn;
   } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
@@ -63,7 +63,7 @@ export const passes = async (
   signer?: KeyringPair
 ): Promise<void> => {
   let txResult: SubmittableResult;
-  if (asyncFn instanceof SubmittableResult) {
+  if (SubmittableResultOf(asyncFn)) {
     txResult = asyncFn;
   } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
@@ -88,7 +88,7 @@ export const fails = async (
   message: string
 ) => {
   let txResult: SubmittableResult;
-  if (asyncFn instanceof SubmittableResult) {
+  if (SubmittableResultOf(asyncFn)) {
     txResult = asyncFn;
   } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
@@ -138,4 +138,8 @@ const createAssertionMessage = (passedMessage, defaultMessage) => {
 
 const SubmittableExtrinsicOf = (val: any): boolean => {
   return (val as SubmittableExtrinsic<ApiTypes>).signAndSend != undefined;
+};
+
+const SubmittableResultOf = (val: any): boolean => {
+  return (val as SubmittableResult).findRecord != undefined;
 };

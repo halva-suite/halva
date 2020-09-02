@@ -58,6 +58,7 @@
     "assertion-error": "^1.1.0",
     "chai": "^4.2.0",
     "class-transformer": "^0.3.1",
+    "jest": "^26.4.2",
     "mocha": "^7.2.0",
     "sha.js": "^2.4.11",
     "yargs": "^15.4.1"

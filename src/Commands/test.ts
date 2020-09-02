@@ -61,7 +61,7 @@ export class Test implements yargs.CommandModule {
         args.d as boolean,
         args.t as number,
         null,
-        args.v as boolean,
+        args.v as boolean
       )
     );
   }

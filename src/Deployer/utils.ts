@@ -34,7 +34,8 @@ export async function sendAndReturnFinalized(
         result.status.isUsurped
       ) {
         reject(result as SubmittableResult);
-        if (verbose) console.error('ERROR: Transaction could not be finalized.');
+        if (verbose)
+          console.error('ERROR: Transaction could not be finalized.');
       }
     });
   });

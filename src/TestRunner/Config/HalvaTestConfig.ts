@@ -1,4 +1,4 @@
-import { readdirSync, existsSync} from 'fs';
+import { readdirSync, existsSync } from 'fs';
 import { MochaOptions } from 'mocha';
 import { join, resolve } from 'path';
 import { getConfigureModule } from '../../Configure/FindConfigFile';
@@ -26,8 +26,7 @@ export class HalvaTestConfig {
       this.testingFiles = readdirSync(filesPath).map(file =>
         join(filesPath, file)
       );
-    }
-    else {
+    } else {
       console.log('Nothing to test');
       process.exit(0);
     }
@@ -38,7 +37,10 @@ export class HalvaTestConfig {
     this.halvaJs = require(network == null
       ? getConfigureModule(null)
       : resolve(network));
-    this.types = this.halvaJs.polkadotjs?.types == undefined ? null : this.halvaJs.polkadotjs.types;
+    this.types =
+      this.halvaJs.polkadotjs?.types == undefined
+        ? null
+        : this.halvaJs.polkadotjs.types;
     this.halvaJs = this.halvaJs.networks[
       networkName == null ? Object.keys(this.halvaJs.networks)[0] : networkName
     ];
