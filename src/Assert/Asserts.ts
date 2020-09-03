@@ -95,7 +95,7 @@ export const fails = async (
     throw new AssertionError('Bad type');
   }
   const err = txResult.findRecord('system', 'ExtrinsicFailed');
-  if (err?.event?.data[0]) {
+  if (!err?.event?.data[0]) {
     const assertionMessage = createAssertionMessage(message, `Did not fail`);
     throw new AssertionError(assertionMessage);
   }
@@ -104,7 +104,7 @@ export const fails = async (
     globalThis.chainMetadata.asV11.modules[errInfo.index].errors[errInfo.error]
       .name;
   const txModuleName =
-    globalThis.hainMetadata.asV11.modules[errInfo.index].name;
+    globalThis.chainMetadata.asV11.modules[errInfo.index].name;
   if (
     errorName != txErrorName.toString() ||
     module != txModuleName.toString()
