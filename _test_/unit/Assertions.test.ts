@@ -8,9 +8,10 @@ import { resolve } from 'path';
 import { readFileSync } from 'fs';
 import { Metadata } from '@polkadot/types';
 import { SubmittableResultMock } from './mocks/SubmittableResultMock';
+import { SubmittableExtrinsicMock } from './mocks/SubmittableExtrinsicMock';
 describe('Asserts', () => {
   beforeEach(() => {
-    let metadata = JSON.parse(readFileSync(resolve('./_test_/unit/metaDataMock.json')).toString()) as Metadata;
+    let metadata = JSON.parse(readFileSync(resolve('./_test_/unit/mocks/metaDataMock.json')).toString()) as Metadata;
     globalThis.chainMetadata = metadata;
   });
 
@@ -29,6 +30,30 @@ describe('Asserts', () => {
 
     test('SubmittableResult BAD', async done => {
       let mock = new SubmittableResultMock('test', 'event');
+      await expect(eventEmitted(
+        mock,
+        'bad',
+        'test',
+        'test message',
+        null
+      )).rejects.toThrow();
+      done();
+    });
+
+    test('SubmittableExtrinsic', async done => {
+      let mock = new SubmittableExtrinsicMock('test', 'event');
+      await expect(eventEmitted(
+        mock,
+        'event',
+        'test',
+        'test message',
+        null
+      )).resolves.not.toThrow();
+      done();
+    });
+
+    test('SubmittableExtrinsic', async done => {
+      let mock = new SubmittableExtrinsicMock('test', 'event');
       await expect(eventEmitted(
         mock,
         'bad',
@@ -89,7 +114,7 @@ describe('Asserts', () => {
   describe('fails', () => {
     test('SubmittableResult', async done => {
       let mock = new SubmittableResultMock('Balances', 'InsufficientBalance');
-      await expect( fails(mock, 'InsufficientBalance', 'Balances', null, 'test message')).resolves.not.toThrow();
+      await expect( fails(mock, 'InsufficientBalance', 'Balances', null, 'test message')).rejects.toThrow();
       done();
     });
 

@@ -17,7 +17,7 @@ export const GetByteArray = (filePath: string) => {
 export async function sendAndReturnFinalized(
   signer: KeyringPair,
   tx: any
-): Promise<SubmittableResult> {
+): Promise<any> {
   return new Promise((resolve, reject) => {
     tx.signAndSend(signer, (result: SubmittableResult) => {
       if (result.status.isInBlock) {
@@ -28,14 +28,14 @@ export async function sendAndReturnFinalized(
       if (result.status.isFinalized) {
         if (globalThis.verbose)
           console.log(`Finalized in: ${result.status.asFinalized}`);
-        resolve(result as SubmittableResult);
+        resolve(result);
       }
       if (
         result.status.isDropped ||
         result.status.isInvalid ||
         result.status.isUsurped
       ) {
-        reject(result as SubmittableResult);
+        reject(result);
         if (globalThis.verbose)
           console.error('ERROR: Transaction could not be finalized.');
       }
@@ -55,14 +55,14 @@ export async function sendAndReturnSignFinalized(
       }
       if (result.status.isFinalized) {
         console.log(`Finalized in: ${result.status.asFinalized}`);
-        resolve(result as SubmittableResult);
+        resolve(result);
       }
       if (
         result.status.isDropped ||
         result.status.isInvalid ||
         result.status.isUsurped
       ) {
-        reject(result as SubmittableResult);
+        reject(result);
         console.error('ERROR: Transaction could not be finalized.');
       }
     });

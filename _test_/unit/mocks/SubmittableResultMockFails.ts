@@ -1,9 +1,12 @@
 export class SubmittableResultMockFails {
   private section;
   private eventName;
-  constructor(section: string, eventName: string) {
+  public status: StatusMock;
+
+  constructor(section: string, eventName: string, status? :StatusMock) {
     this.section = section;
     this.eventName = eventName;
+    this.status = status;
   }
   public findRecord(section: string, eventName: string): EventRecordMockFails {
     if (section == this.section && eventName == this.eventName) {
@@ -20,4 +23,12 @@ export interface EventRecordMockFails  {
 
 export interface EventMockFails  {
   data: any[];
+}
+
+export interface StatusMock  {
+  isInBlock: boolean;
+  isFinalized: boolean;
+  isDropped: boolean;
+  isInvalid: boolean;
+  isUsurped: boolean;
 }
