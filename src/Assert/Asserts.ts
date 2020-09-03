@@ -6,7 +6,6 @@ import {
   sendAndReturnFinalized,
   sendAndReturnSignFinalized
 } from '../Deployer/utils';
-
 export const eventEmitted = async (
   asyncFn: any,
   eventName: string,
