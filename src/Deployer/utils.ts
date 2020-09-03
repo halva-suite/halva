@@ -21,11 +21,11 @@ export async function sendAndReturnFinalized(
   return new Promise((resolve, reject) => {
     tx.signAndSend(signer, (result: SubmittableResult) => {
       if (result.status.isInBlock) {
-        if (verbose) console.log(`Write in block: ${result.status.asInBlock}`);
+        if (globalThis.verbose) console.log(`Write in block: ${result.status.asInBlock}`);
         // Return the result of the submittable extrinsic after the transfer is finalized
       }
       if (result.status.isFinalized) {
-        if (verbose) console.log(`Finalized in: ${result.status.asFinalized}`);
+        if (globalThis.verbose) console.log(`Finalized in: ${result.status.asFinalized}`);
         resolve(result as SubmittableResult);
       }
       if (
@@ -34,7 +34,7 @@ export async function sendAndReturnFinalized(
         result.status.isUsurped
       ) {
         reject(result as SubmittableResult);
-        if (verbose)
+        if (globalThis.verbose)
           console.error('ERROR: Transaction could not be finalized.');
       }
     });
@@ -47,7 +47,7 @@ export async function sendAndReturnSignFinalized(
   return new Promise((resolve, reject) => {
     tx.send((result: SubmittableResult) => {
       if (result.status.isInBlock) {
-        if (verbose) console.log(`Write in block: ${result.status.asInBlock}`);
+        if (globalThis.verbose) console.log(`Write in block: ${result.status.asInBlock}`);
         // Return the result of the submittable extrinsic after the transfer is finalized
       }
       if (result.status.isFinalized) {
