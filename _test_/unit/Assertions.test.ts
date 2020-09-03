@@ -3,40 +3,39 @@ import {
   eventNotEmitted,
   passes,
   fails
-} from '../../Assert/Asserts';
+} from '../../src/Assert/Asserts';
+import { resolve } from 'path';
 import { readFileSync } from 'fs';
 import { Metadata } from '@polkadot/types';
-import { SubmittableResultMock } from './SubmittableResultMock';
+import { SubmittableResultMock } from './mocks/SubmittableResultMock';
 describe('Asserts', () => {
   beforeEach(() => {
-    let metadata = JSON.parse(readFileSync('./metaDataMock.json').toString()) as Metadata;
+    let metadata = JSON.parse(readFileSync(resolve('./_test_/unit/metaDataMock.json')).toString()) as Metadata;
     globalThis.chainMetadata = metadata;
   });
 
   describe('eventEmitted', () => {
     test('SubmittableResult', async done => {
       let mock = new SubmittableResultMock('test', 'event');
-      let result = await eventEmitted(
+      await expect(eventEmitted(
         mock,
-        'test',
         'event',
+        'test',
         'test message',
         null
-      );
-      expect(result).toBe(true);
+      )).resolves.not.toThrow();
       done();
     });
 
     test('SubmittableResult BAD', async done => {
       let mock = new SubmittableResultMock('test', 'event');
-      let result = await eventEmitted(
+      await expect(eventEmitted(
         mock,
-        'test',
         'bad',
+        'test',
         'test message',
         null
-      );
-      expect(result).toBe(false);
+      )).rejects.toThrow();
       done();
     });
   });
@@ -44,27 +43,25 @@ describe('Asserts', () => {
   describe('eventNotEmitted', () => {
     test('SubmittableResult', async done => {
       let mock = new SubmittableResultMock('test', 'event');
-      let result = await eventNotEmitted(
+      await expect( eventNotEmitted(
         mock,
-        'test',
         'not',
+        'test',
         'test message',
         null
-      );
-      expect(result).toBe(true);
+      )).resolves.not.toThrow();
       done();
     });
 
     test('SubmittableResult BAD', async done => {
       let mock = new SubmittableResultMock('test', 'event');
-      let result = await eventNotEmitted(
+      await expect( eventNotEmitted(
         mock,
-        'test',
         'event',
+        'test',
         'test message',
         null
-      );
-      expect(result).toBe(false);
+      )).rejects.toThrow();
       done();
     });
   });
@@ -72,25 +69,33 @@ describe('Asserts', () => {
   describe('passes', () => {
     test('SubmittableResult', async done => {
       let mock = new SubmittableResultMock('test', 'event');
-      let result = await passes(mock, 'test message');
-      expect(result).toBe(true);
+      await expect( passes(
+        mock,
+        'test message'
+      )).resolves.not.toThrow();
       done();
     });
 
     test('SubmittableResult BAD', async done => {
       let mock = new SubmittableResultMock('system', 'ExtrinsicFailed');
-      let result = await passes(mock, 'test message');
-      expect(result).toBe(false);
+      await expect( passes(
+        mock,
+        'test message'
+      )).rejects.toThrow();
       done();
     });
   });
 
   describe('fails', () => {
     test('SubmittableResult', async done => {
-
       let mock = new SubmittableResultMock('Balances', 'InsufficientBalance');
-      let result = await fails(mock, 'InsufficientBalance', 'Balances', null, 'test message');
-      expect(result).toBe(true);
+      await expect( fails(mock, 'InsufficientBalance', 'Balances', null, 'test message')).resolves.not.toThrow();
+      done();
+    });
+
+    test('SubmittableResult BAD', async done => {
+      let mock = new SubmittableResultMock('system', 'ExtrinsicFailed');
+      await expect( fails(mock, 'system', 'ExtrinsicFailed', null, 'test message')).rejects.toThrow();
       done();
     });
   });

@@ -1,23 +1,23 @@
-export class SubmittableResultMock {
+export class SubmittableResultMockFails {
   private section;
   private eventName;
   constructor(section: string, eventName: string) {
     this.section = section;
     this.eventName = eventName;
   }
-  public findRecord(section: string, eventName: string): EventRecordMock {
+  public findRecord(section: string, eventName: string): EventRecordMockFails {
     if (section == this.section && eventName == this.eventName) {
       return { event: { data: [this.section, this.eventName] } };
     } else {
-      return null;
+      return { event: { data: [] } };
     }
   }
 }
 
-export interface EventRecordMock {
-  event: EventMock;
+export interface EventRecordMockFails  {
+  event: EventMockFails;
 }
 
-export interface EventMock {
+export interface EventMockFails  {
   data: any[];
 }
