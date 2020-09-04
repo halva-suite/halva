@@ -27,7 +27,7 @@ export interface EventMockFails  {
 
 export class DataMock {
   public toString() {
-    return '{"Module" : { "error": 3, "index": 5 } }'
+    return '{"Module" : { "error": 3, "index": 6 } }'
   }
 }
 export interface StatusMock  {

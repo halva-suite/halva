@@ -4,16 +4,15 @@ import {
   passes,
   fails
 } from '../../src/Assert/Asserts';
-import { resolve } from 'path';
-import { readFileSync } from 'fs';
-import { Metadata } from '@polkadot/types';
 import { SubmittableResultMock } from './mocks/SubmittableResultMock';
 import { SubmittableExtrinsicMock } from './mocks/SubmittableExtrinsicMock';
 import {describe, expect, test} from '@jest/globals';
 import { SubmittableResultMockFails } from './mocks/SubmittableResultMockFails';
+import { MetadataMock } from './mocks/MetadataMock';
+import { SubmittableExtrinsicMockFails } from './mocks/SubmittableExtrinsicFailMock';
 describe('Asserts', () => {
   beforeEach(() => {
-    let metadata = JSON.parse(readFileSync(resolve('./_test_/unit/mocks/metaDataMock.json')).toString()) as Metadata;
+    let metadata = new MetadataMock('./_test_/unit/mocks/metaDataMock.json');
     globalThis.chainMetadata = metadata;
   });
 
@@ -158,13 +157,25 @@ describe('Asserts', () => {
 
   describe('fails', () => {
     test('SubmittableResult', async done => {
+      let mock = new SubmittableResultMockFails('system', 'ExtrinsicFailed');
+      await expect( fails(mock, 'InsufficientBalance', 'Balances', null, 'test message')).resolves.not.toThrow();
+      done();
+    });
+
+    test('SubmittableResult BAD', async done => {
       let mock = new SubmittableResultMockFails('Balances', 'InsufficientBalance');
       await expect( fails(mock, 'InsufficientBalance', 'Balances', null, 'test message')).rejects.toThrow();
       done();
     });
 
-    test('SubmittableResult BAD', async done => {
-      let mock = new SubmittableResultMockFails('system', 'ExtrinsicFailed');
+    test('SubmittableExtrinsic', async done => {
+      let mock = new SubmittableExtrinsicMockFails('system', 'ExtrinsicFailed');
+      await expect( fails(mock, 'InsufficientBalance', 'Balances', null, 'test message')).resolves.not.toThrow();
+      done();
+    });
+
+    test('SubmittableExtrinsic BAD', async done => {
+      let mock = new SubmittableExtrinsicMockFails('Balances', 'InsufficientBalance');
       await expect( fails(mock, 'InsufficientBalance', 'Balances', null, 'test message')).rejects.toThrow();
       done();
     });

@@ -31,7 +31,7 @@ declare global {
   var eventEmitted;
   var passes;
   var fails;
-  var chainMetadata: Metadata;
+  var chainMetadata: any;
 }
 
 export const HalvaRunTests = async (config: HalvaTestConfig) => {

@@ -54,6 +54,7 @@ export async function sendAndReturnSignFinalized(
         // Return the result of the submittable extrinsic after the transfer is finalized
       }
       if (result.status.isFinalized) {
+        if (globalThis.verbose)
         console.log(`Finalized in: ${result.status.asFinalized}`);
         resolve(result);
       }
