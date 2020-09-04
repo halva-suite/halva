@@ -3,7 +3,7 @@ export class SubmittableResultMock {
   private eventName;
   public status: StatusMock;
 
-  constructor(section: string, eventName: string, status? :StatusMock) {
+  constructor(section: string, eventName: string, status?: StatusMock) {
     this.section = section;
     this.eventName = eventName;
     this.status = status;
@@ -26,8 +26,7 @@ export interface EventMock {
   data: any[];
 }
 
-
-export interface StatusMock  {
+export interface StatusMock {
   isInBlock: boolean;
   isFinalized: boolean;
   isDropped: boolean;

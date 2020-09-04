@@ -2,7 +2,7 @@ export class SubmittableResultMockFails {
   private section;
   private eventName;
   public status: StatusMock;
-  constructor(section: string, eventName: string, status? :StatusMock) {
+  constructor(section: string, eventName: string, status?: StatusMock) {
     this.section = section;
     this.eventName = eventName;
     this.status = status;
@@ -10,27 +10,26 @@ export class SubmittableResultMockFails {
   public findRecord(section: string, eventName: string): EventRecordMockFails {
     if (section == this.section && eventName == this.eventName) {
       return { event: { data: [new DataMock()] } };
-
     } else {
       return { event: { data: [] } };
     }
   }
 }
 
-export interface EventRecordMockFails  {
+export interface EventRecordMockFails {
   event: EventMockFails;
 }
 
-export interface EventMockFails  {
+export interface EventMockFails {
   data: DataMock[];
 }
 
 export class DataMock {
   public toString() {
-    return '{"Module" : { "error": 3, "index": 6 } }'
+    return '{"Module" : { "error": 3, "index": 6 } }';
   }
 }
-export interface StatusMock  {
+export interface StatusMock {
   isInBlock: boolean;
   isFinalized: boolean;
   isDropped: boolean;

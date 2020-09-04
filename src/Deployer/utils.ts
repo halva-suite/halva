@@ -55,7 +55,7 @@ export async function sendAndReturnSignFinalized(
       }
       if (result.status.isFinalized) {
         if (globalThis.verbose)
-        console.log(`Finalized in: ${result.status.asFinalized}`);
+          console.log(`Finalized in: ${result.status.asFinalized}`);
         resolve(result);
       }
       if (
