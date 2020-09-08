@@ -51,7 +51,7 @@ export const CreateProject = async (projectName: string) => {
     console.log('Clone the substrate repository, it can take a long time :)');
     await Git.Clone(
       SubstrateRepo,
-      join(process.cwd(), projectName, 'substrate')
+      join(process.cwd(), projectName)
     );
   } catch (err) {
     console.log(err);
