@@ -6,19 +6,20 @@ export class Start implements yargs.CommandModule {
   describe = 'Start substrate with custom spec';
 
   builder(args: yargs.Argv) {
-    return args.option('p', {
-      alias: 'path',
-      type: 'string',
-      required: true,
-      describe: 'Path to substrate'
-    })
-    .option('w', {
-      alias: 'wsport',
-      type: 'number',
-      required: false,
-      default: 9944,
-      describe: 'ws-port'
-    });
+    return args
+      .option('p', {
+        alias: 'path',
+        type: 'string',
+        required: true,
+        describe: 'Path to substrate'
+      })
+      .option('w', {
+        alias: 'wsport',
+        type: 'number',
+        required: false,
+        default: 9944,
+        describe: 'ws-port'
+      });
   }
 
   async handler(args: yargs.Arguments) {
