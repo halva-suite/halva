@@ -54,7 +54,7 @@
     "node": ">=10"
   },
   "dependencies": {
-    "@halva-suite/halva-spec-builder": "^1.0.2",
+    "@halva-suite/halva-spec-builder": "^1.0.3",
     "@polkadot/api": "^1.33.1",
     "@polkadot/api-contract": "^1.33.1",
     "@polkadot/keyring": "^3.4.1",

@@ -3,13 +3,14 @@ import { resolve, join } from 'path';
 import { createWriteStream, readFileSync } from 'fs';
 import {
   HalvaSpecModifier,
-  SessionMiddleware
+  balanceMiddleware
 } from '@halva-suite/halva-spec-builder';
 import { HalvaTestConfig } from '../TestRunner';
 
 export const StartMain = async (
   pathSubstrate: string,
-  config: HalvaTestConfig
+  config: HalvaTestConfig,
+  wsport: number
 ) => {
   await GenerateSpec(resolve(pathSubstrate)).catch(err => {
     console.log(err);
@@ -20,21 +21,22 @@ export const StartMain = async (
     10
   )
     .setMnemonic(config.mnemonic)
-    .apply(SessionMiddleware)
+    .apply(balanceMiddleware)
     .run();
   spec.output(join(process.cwd(), 'customSpec.json'));
   FixSpec(join(process.cwd(), 'customSpec.json'));
   console.log('Start node');
   await StartNode(
     resolve(pathSubstrate),
-    join(process.cwd(), 'customSpec.json')
+    join(process.cwd(), 'customSpec.json'),
+    wsport
   );
   console.log('Launched;');
 };
 
-export const StartNode = (pathSubstrate: string, pathSpec: string) => {
+export const StartNode = (pathSubstrate: string, pathSpec: string, port: number) => {
   return new Promise(function(reject) {
-    let args = ['--chain=' + pathSpec, '--tmp', '--ws-port=9944'];
+    let args = ['--chain=' + pathSpec, '--tmp', '--ws-port=' + port];
     let proc = spawn(pathSubstrate, args);
     proc.stdout.on('data', function(chunk) {
       let message = chunk.toString();
