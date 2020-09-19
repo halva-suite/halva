@@ -13,6 +13,7 @@ export class HalvaTestConfig {
   public networkList: any;
   public verbose: boolean;
   public types: any;
+  public mnemonic: string;
   constructor(
     filesPath: string[],
     mocha?: MochaOptions,
@@ -37,7 +38,7 @@ export class HalvaTestConfig {
           this.testingFiles = filesPath.map(f => resolve(f));
         }
       } else {
-        throw new Error('No files for test');
+        if (isTest) throw new Error('No files for test');
       }
     }
     this.mocha = mocha || {};
@@ -50,10 +51,14 @@ export class HalvaTestConfig {
     this.halvaJs = require(network == null
       ? getConfigureModule(null)
       : resolve(network));
+    this.mnemonic = this.halvaJs.mnemonic;
     this.types =
       this.halvaJs.polkadotjs?.types == undefined
         ? null
         : this.halvaJs.polkadotjs.types;
+    this.halvaJs = this.halvaJs.networks[
+      networkName == null ? Object.keys(this.halvaJs.networks)[0] : networkName
+    ];
     this.networkName = networkName;
     this.colors = colors;
   }

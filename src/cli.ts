@@ -5,6 +5,7 @@ import { Console } from './Commands/console';
 import { Exec } from './Commands/exec';
 import { Migrate } from './Commands/migrate';
 import { Networks } from './Commands/networks';
+import { Start } from './Commands/start';
 import { Test } from './Commands/test';
 import { getConfigureModule } from './Configure';
 import { CreateArtifact } from './CreateArtifact/CreateArtifact';
@@ -66,4 +67,5 @@ yargs
       );
     }
   )
+  .command(new Start())
   .help().argv;
