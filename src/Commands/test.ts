@@ -54,14 +54,14 @@ export class Test implements yargs.CommandModule {
   public async handler(args: yargs.Arguments) {
     HalvaRunTests(
       new HalvaTestConfig(
-        args.p as string,
+        args.p as string[],
         null,
         args.c as string,
         args.n as string,
         args.d as boolean,
         args.t as number,
         null,
-        args.v as boolean,
+        args.v as boolean
       )
     );
   }
