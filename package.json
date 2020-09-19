@@ -10,7 +10,7 @@
   "keywords": [],
   "scripts": {
     "describe": "npm-scripts-info",
-    "build": "run-s clean && run-p build:* && cp -arv _templates/ build/main",
+    "build": "run-s clean && run-p build:* && cp -av -R _templates/ build/main/",
     "build:main": "tsc -p tsconfig.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -57,6 +57,7 @@
     "node": ">=10"
   },
   "dependencies": {
+    "@halva-suite/halva-spec-builder": "^1.0.4",
     "@polkadot/api": "^1.30.1",
     "@polkadot/api-contract": "^1.30.1",
     "@polkadot/keyring": "^3.4.1",
