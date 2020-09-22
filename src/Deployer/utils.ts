@@ -17,16 +17,18 @@ export const GetByteArray = (filePath: string) => {
 export async function sendAndReturnFinalized(
   signer: KeyringPair,
   tx: any
-): Promise<SubmittableResult> {
+): Promise<any> {
   return new Promise((resolve, reject) => {
     tx.signAndSend(signer, (result: SubmittableResult) => {
       if (result.status.isInBlock) {
-        if (verbose) console.log(`Write in block: ${result.status.asInBlock}`);
+        if (globalThis.verbose)
+          console.log(`Write in block: ${result.status.asInBlock}`);
         // Return the result of the submittable extrinsic after the transfer is finalized
       }
       if (result.status.isFinalized) {
-        if (verbose) console.log(`Finalized in: ${result.status.asFinalized}`);
-        resolve(result as SubmittableResult);
+        if (globalThis.verbose)
+          console.log(`Finalized in: ${result.status.asFinalized}`);
+        resolve(result);
       }
       if (
         result.status.isDropped ||
@@ -34,7 +36,7 @@ export async function sendAndReturnFinalized(
         result.status.isUsurped
       ) {
         reject(result as SubmittableResult);
-        if (verbose)
+        if (globalThis.verbose)
           console.error('ERROR: Transaction could not be finalized.');
       }
     });
@@ -47,19 +49,21 @@ export async function sendAndReturnSignFinalized(
   return new Promise((resolve, reject) => {
     tx.send((result: SubmittableResult) => {
       if (result.status.isInBlock) {
-        if (verbose) console.log(`Write in block: ${result.status.asInBlock}`);
+        if (globalThis.verbose)
+          console.log(`Write in block: ${result.status.asInBlock}`);
         // Return the result of the submittable extrinsic after the transfer is finalized
       }
       if (result.status.isFinalized) {
-        console.log(`Finalized in: ${result.status.asFinalized}`);
-        resolve(result as SubmittableResult);
+        if (globalThis.verbose)
+          console.log(`Finalized in: ${result.status.asFinalized}`);
+        resolve(result);
       }
       if (
         result.status.isDropped ||
         result.status.isInvalid ||
         result.status.isUsurped
       ) {
-        reject(result as SubmittableResult);
+        reject(result);
         console.error('ERROR: Transaction could not be finalized.');
       }
     });
