@@ -1,5 +1,5 @@
 ---
-to: ./tests/example.test.js
+to: ./test/example.test.js
 ---
 describe('Halva test', () => {
   describe('Transfer balance', () => {
