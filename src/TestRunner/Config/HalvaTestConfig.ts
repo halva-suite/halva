@@ -51,7 +51,6 @@ export class HalvaTestConfig {
     this.halvaJs = require(network == null
       ? getConfigureModule(null)
       : resolve(network));
-    this.mnemonic = this.halvaJs.mnemonic;
     this.types =
       this.halvaJs.polkadotjs?.types == undefined
         ? null
@@ -59,6 +58,7 @@ export class HalvaTestConfig {
     this.halvaJs = this.halvaJs.networks[
       networkName == null ? Object.keys(this.halvaJs.networks)[0] : networkName
     ];
+    this.mnemonic = this.halvaJs.mnemonic;
     this.networkName = networkName;
     this.colors = colors;
   }
