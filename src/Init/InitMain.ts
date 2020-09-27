@@ -49,10 +49,7 @@ export const CreateProject = async (projectName: string) => {
   try {
     mkdirSync(join(process.cwd(), projectName));
     console.log('Clone the substrate repository, it can take a long time :)');
-    await Git.Clone(
-      SubstrateRepo,
-      join(process.cwd(), projectName)
-    );
+    await Git.Clone(SubstrateRepo, join(process.cwd(), projectName));
   } catch (err) {
     console.log(err);
     process.exit(0);
