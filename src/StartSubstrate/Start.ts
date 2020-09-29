@@ -7,7 +7,7 @@ import {
 } from '@halva-suite/halva-spec-builder';
 import { keyloggerMiddleware } from '@halva-suite/halva-spec-builder/dist/middlewares/KeyloggerMiddleware';
 import { HalvaTestConfig } from '../TestRunner';
-import { oneValidatorMiddleware } from '../CustomMidllewares/OneValidatorMiddleware';
+import { substrateValidatorMiddleware } from '../CustomMidllewares/SubstrateValidatorMiddleware';
 
 export const StartMain = async (
   pathSubstrate: string,
@@ -25,7 +25,7 @@ export const StartMain = async (
     .setMnemonic(config.mnemonic)
     .apply(balanceMiddleware)
     .apply(keyloggerMiddleware)
-    .apply(oneValidatorMiddleware)
+    .apply(substrateValidatorMiddleware)
     .run();
   spec.output(join(process.cwd(), 'customSpec.json'));
   FixSpec(join(process.cwd(), 'customSpec.json'));
@@ -41,9 +41,9 @@ export const StartMain = async (
 export const StartNode = (
   pathSubstrate: string,
   pathSpec: string,
-  port: number,
+  port: number
 ) => {
-  return new Promise( function(reject) {
+  return new Promise(function(reject) {
     let args = [
       '--chain=' + pathSpec,
       '--tmp',
