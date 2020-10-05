@@ -17,8 +17,8 @@ export const Start = async (
     await spawnProcess('git', ['checkout', SUBSTRATE_TAG]);
   }
 
+  await spawnProcess('./scripts/init.sh');
   await spawnProcess('cargo', ['build']);
-  await spawnProcess('./.maintain/init.sh');
   
   try {
     await checkFile(pathSubstrate);

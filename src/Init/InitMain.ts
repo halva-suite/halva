@@ -4,7 +4,7 @@ import { join } from 'path';
 const Git = require('nodegit');
 const Logger = require('hygen/lib/logger');
 const defaultTemplates = join(__dirname, '../_templates');
-const SubstrateRepo = 'https://github.com/paritytech/substrate.git';
+const SubstrateRepo = 'https://github.com/substrate-developer-hub/substrate-node-template.git';
 export const InitMain = async (
   force: boolean,
   boxName?: string,
