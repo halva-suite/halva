@@ -68,11 +68,10 @@ export class artifacts {
       deployed = true;
     }
     ContractData.abi = getAbiObj(JSON.parse(ContractData.abiJSON));
+    // @ts-ignore currently unused local ignore
     for (const [key, value] of Object.entries(
       ContractData.abi.abi.contract.messages
     )) {
-      let x = key;
-      x = x;
       ContractPrimitive.prototype[value.name] = async function(
         signer: KeyringPair,
         args: any

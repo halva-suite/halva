@@ -6,7 +6,6 @@ import {
   sendAndReturnFinalized,
   sendAndReturnSignFinalized
 } from '../Deployer/utils';
-
 export const eventEmitted = async (
   asyncFn: any,
   eventName: string,
@@ -15,7 +14,7 @@ export const eventEmitted = async (
   signer: KeyringPair
 ) => {
   let txResult: SubmittableResult;
-  if (asyncFn instanceof SubmittableResult) {
+  if (SubmittableResultOf(asyncFn)) {
     txResult = asyncFn;
   } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
@@ -40,7 +39,7 @@ export const eventNotEmitted = async (
   signer: KeyringPair
 ) => {
   let txResult: SubmittableResult;
-  if (asyncFn instanceof SubmittableResult) {
+  if (SubmittableResultOf(asyncFn)) {
     txResult = asyncFn;
   } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
@@ -63,7 +62,7 @@ export const passes = async (
   signer?: KeyringPair
 ): Promise<void> => {
   let txResult: SubmittableResult;
-  if (asyncFn instanceof SubmittableResult) {
+  if (SubmittableResultOf(asyncFn)) {
     txResult = asyncFn;
   } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
@@ -71,7 +70,7 @@ export const passes = async (
     throw new AssertionError('Bad type');
   }
   const result = txResult.findRecord('system', 'ExtrinsicFailed');
-  if (result) {
+  if (result?.event?.data[0]) {
     const assertionMessage = createAssertionMessage(
       message,
       `Failed with ${result.event.data[0]}`
@@ -88,7 +87,7 @@ export const fails = async (
   message: string
 ) => {
   let txResult: SubmittableResult;
-  if (asyncFn instanceof SubmittableResult) {
+  if (SubmittableResultOf(asyncFn)) {
     txResult = asyncFn;
   } else if (SubmittableExtrinsicOf(asyncFn)) {
     txResult = await getTxResult(asyncFn, signer);
@@ -96,14 +95,16 @@ export const fails = async (
     throw new AssertionError('Bad type');
   }
   const err = txResult.findRecord('system', 'ExtrinsicFailed');
-  if (!err) {
+  if (!err?.event?.data[0]) {
     const assertionMessage = createAssertionMessage(message, `Did not fail`);
     throw new AssertionError(assertionMessage);
   }
   const errInfo = JSON.parse(err.event.data[0].toString()).Module;
   const txErrorName =
-    chainMetadata.asV11.modules[errInfo.index].errors[errInfo.error].name;
-  const txModuleName = chainMetadata.asV11.modules[errInfo.index].name;
+    globalThis.chainMetadata.asV11.modules[errInfo.index].errors[errInfo.error]
+      .name;
+  const txModuleName =
+    globalThis.chainMetadata.asV11.modules[errInfo.index].name;
   if (
     errorName != txErrorName.toString() ||
     module != txModuleName.toString()
@@ -138,4 +139,8 @@ const createAssertionMessage = (passedMessage, defaultMessage) => {
 
 const SubmittableExtrinsicOf = (val: any): boolean => {
   return (val as SubmittableExtrinsic<ApiTypes>).signAndSend != undefined;
+};
+
+const SubmittableResultOf = (val: any): boolean => {
+  return (val as SubmittableResult).findRecord != undefined;
 };

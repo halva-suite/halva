@@ -11,6 +11,7 @@ export class Test implements yargs.CommandModule {
         alias: 'path',
         type: 'string',
         default: './test/',
+        array: true,
         required: false,
         describe: 'Path to test folder'
       })
@@ -54,7 +55,7 @@ export class Test implements yargs.CommandModule {
   public async handler(args: yargs.Arguments) {
     HalvaRunTests(
       new HalvaTestConfig(
-        args.p as string,
+        args.p as string[],
         null,
         args.c as string,
         args.n as string,
@@ -62,6 +63,7 @@ export class Test implements yargs.CommandModule {
         args.t as number,
         null,
         args.v as boolean,
+        true
       )
     );
   }

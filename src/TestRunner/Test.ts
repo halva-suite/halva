@@ -31,24 +31,26 @@ declare global {
   var eventEmitted;
   var passes;
   var fails;
-  var chainMetadata: Metadata;
+  var chainMetadata: any;
 }
 
-export const HalvaRunTests = async (config: HalvaTestConfig) => {
-  config.testingFiles = config.testingFiles.map(testFile => {
-    return path.resolve(testFile);
-  });
+export const HalvaRunTests = async (
+  config: HalvaTestConfig,
+  onlyGlobal = false
+) => {
+  config.testingFiles = config.testingFiles.map(testFile => path.resolve(testFile));
+
   const provider = new WsProvider(config.halvaJs.ws);
   const polkadot = await ApiPromise.create({ provider, types: config.types });
   const accounts = await generateAccounts(10, config.halvaJs.mnemonic);
-  const mocha = CreateMocha(config);
-  config.testingFiles.forEach(file => {
-    mocha.addFile(file);
-  });
   const keyring = testKeyring({ type: 'sr25519' });
   const alicePair = keyring.getPair(ALICE);
   const charliePair = keyring.getPair(CHARLIE);
+  
+  const mocha = CreateMocha(config);
+
   let metadata: Metadata;
+
   try {
     // @ts-ignore
     metadata = await polkadot.rpc.state.getMetadata();
@@ -57,6 +59,7 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
     process.exit(0);
   }
   const bobPair = keyring.getPair(BOB);
+
   SetTestGlobal(
     accounts,
     polkadot,
@@ -67,12 +70,21 @@ export const HalvaRunTests = async (config: HalvaTestConfig) => {
     mocha,
     metadata
   );
+
+  if (onlyGlobal) return;
+
+  config.testingFiles = config.testingFiles.map(testFile => {
+    return path.resolve(testFile);
+  });
+
+  config.testingFiles.forEach(file => {
+    mocha.addFile(file);
+  });
+
   console.log('Run tests: ' + config.testingFiles);
-  const runner = mocha.run();
-  Promise.resolve(resolve => {
-    runner.run(fail => {
-      resolve(fail);
-    });
+
+  mocha.run(function(failures) {
+    process.exit(failures ? 1 : 0);
   });
 };
 
