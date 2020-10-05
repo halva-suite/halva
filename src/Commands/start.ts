@@ -1,6 +1,7 @@
 import yargs from 'yargs';
 import { HalvaTestConfig } from '../TestRunner';
-import { StartMain } from '../StartSubstrate/Start';
+import { Start as StartSubstrate } from '../Substrate';
+
 export class Start implements yargs.CommandModule {
   command = 'start';
   describe = 'Start substrate with custom spec';
@@ -10,19 +11,13 @@ export class Start implements yargs.CommandModule {
       .option('p', {
         alias: 'path',
         type: 'string',
-        required: true,
-        describe: 'Path to substrate'
-      })
-      .option('w', {
-        alias: 'wsport',
-        type: 'number',
         required: false,
-        default: 9944,
-        describe: 'ws-port'
+        default: 'target/debug/node-template',
+        describe: 'Path to substrate'
       });
   }
 
   async handler(args: yargs.Arguments) {
-    StartMain(args.p as string, new HalvaTestConfig(null), args.w as number);
+    StartSubstrate(args.p as string, new HalvaTestConfig(null));
   }
 }

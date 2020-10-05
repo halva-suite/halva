@@ -1,15 +1,10 @@
 #!/usr/bin/env node
-import { Init } from './Commands/init';
 import yargs from 'yargs';
-import { Console } from './Commands/console';
-import { Exec } from './Commands/exec';
-import { Migrate } from './Commands/migrate';
-import { Networks } from './Commands/networks';
-import { Start } from './Commands/start';
-import { Test } from './Commands/test';
+import { Init } from './Commands/init';
 import { getConfigureModule } from './Configure';
-import { CreateArtifact } from './CreateArtifact/CreateArtifact';
 import { configChange } from './TestRunner/Config/configChange';
+import { CreateArtifact } from './CreateArtifact/CreateArtifact';
+import { Console, Exec, Migrate, Networks, Start, Test } from './Commands/';
 
 // tslint:disable-next-line: no-unused-expression
 yargs

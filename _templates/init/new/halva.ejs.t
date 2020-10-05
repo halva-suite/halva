@@ -9,6 +9,12 @@ module.exports = {
       mnemonic,
       ws: "ws://127.0.0.1:9944",
     },
+  },
+  polkadotjs: {
+    types: {
+      Address: 'AccountId',
+      LookupSource: 'AccountId'
+    }
   }
 }
 
