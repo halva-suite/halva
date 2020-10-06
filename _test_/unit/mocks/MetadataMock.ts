@@ -3,9 +3,9 @@ import { readFileSync } from 'fs';
 
 export class MetadataMock {
   private pathMeta: string;
-  public asV11: any;
+  public asV12: any;
   constructor(path: string) {
     this.pathMeta = path;
-    this.asV11 = JSON.parse(readFileSync(resolve(this.pathMeta)).toString());
+    this.asV12 = JSON.parse(readFileSync(resolve(this.pathMeta)).toString());
   }
 }
