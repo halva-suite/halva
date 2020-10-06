@@ -7,7 +7,7 @@ import { keyloggerMiddleware } from '@halva-suite/halva-spec-builder/dist/middle
 import { HalvaTestConfig } from '../TestRunner';
 
 const SPEC_FILE_NAME = 'halvaSpec.json';
-const SUBSTRATE_TAG = 'v2.0.0-rc6';
+const SUBSTRATE_TAG = 'v2.0.0';
 
 export const Start = async (
   pathSubstrate: string,

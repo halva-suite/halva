@@ -101,10 +101,10 @@ export const fails = async (
   }
   const errInfo = JSON.parse(err.event.data[0].toString()).Module;
   const txErrorName =
-    globalThis.chainMetadata.asV11.modules[errInfo.index].errors[errInfo.error]
+    globalThis.chainMetadata.asV12.modules[errInfo.index].errors[errInfo.error]
       .name;
   const txModuleName =
-    globalThis.chainMetadata.asV11.modules[errInfo.index].name;
+    globalThis.chainMetadata.asV12.modules[errInfo.index].name;
   if (
     errorName != txErrorName.toString() ||
     module != txModuleName.toString()
