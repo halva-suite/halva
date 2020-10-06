@@ -1,6 +1,6 @@
 {
   "name": "halva-cli",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Halva is a toolchain for developing Decentralized Applications based on Substrate. It provides a high-level way to configure a development environment, interact with Substrate through external API and writing your test cases.",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
