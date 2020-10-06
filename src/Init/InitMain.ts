@@ -15,17 +15,8 @@ export const InitMain = async (
   }
 
   if (!projectName) {
-    if (force) {
-      templateRunner(['test', 'new', '--name', 'example'], '/halva');
-      templateRunner(['init', 'new'], '/halva');
-    } else if (!force) {
-      if (existsSync(process.cwd() + '/halva')) {
-        console.log('Halva directory already exists! Using --force');
-        process.exit(0);
-      }
-      templateRunner(['test', 'new', '--name', 'example'], '/halva');
-      templateRunner(['init', 'new'], '/halva');
-    }
+    templateRunner(['test', 'new', '--name', 'example'], '');
+    templateRunner(['init', 'new'], '');
   }
 
   if (projectName) {
