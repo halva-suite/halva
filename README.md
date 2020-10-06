@@ -16,10 +16,15 @@
   <p align="center">
     ⚠️ (Work In Progress)
     <br />
+    <a href="https://github.com/halva-suite/halva/blob/master/docs/commands.md">Docs</a> |
     <a href="https://github.com/halva-suite/halva/issues">Report Bug</a> |
     <a href="https://github.com/halva-suite/halva/issues">Request Feature</a>
     <br />
-    <p align="center"><b>🔥 ATTENTION 🔥</br> The module has been tested on Substrate <ins>2.0.0-rc5-2</ins> version, work on other versions is not guaranteed</b></p>
+    <p align="center"><b>🔥 ATTENTION 🔥</br> The module has been tested on Substrate <ins>2.0.0-rc6</ins> version, work on other versions is not guaranteed</b></p>
+  </p>
+
+  <p align="center">
+    <img src="https://raw.githubusercontent.com/w3f/General-Grants-Program/aa16ee2840c3ea169352ca3c35e42d8e4d483110/src/badge_black.svg" alt="w3f" width="400">
   </p>
 </p>
 
